@@ -16,23 +16,13 @@ using System.Windows.Shapes;
 namespace ProjectPO
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>  
-    public partial class MainWindow : Window
+    /// Logika interakcji dla klasy ListScreen.xaml
+    /// </summary>
+    public partial class ListScreen : UserControl
     {
-        public MainWindow()
+        public ListScreen()
         {
             InitializeComponent();
-        }
-
-        private void ReservationButton_Click(object sender, RoutedEventArgs e)
-        {
-            View.Content = new ReservationScreen();
-        }
-
-        private void ListButton_Click(object sender, RoutedEventArgs e)
-        {
-            View.Content = new ListScreen();
         }
     }
 }

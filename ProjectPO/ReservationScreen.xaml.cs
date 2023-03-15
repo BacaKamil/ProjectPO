@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ProjectPO
 {
     /// <summary>
-    /// Logika interakcji dla klasy List.xaml
+    /// Logika interakcji dla klasy ReservationScreen.xaml
     /// </summary>
-    public partial class List : Page
+    public partial class ReservationScreen : UserControl
     {
-        public List()
+        public ReservationScreen()
         {
             InitializeComponent();
         }

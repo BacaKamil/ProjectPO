@@ -14,3 +14,8 @@ D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.GenerateResource.
 D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.CoreCompileInputs.cache
 D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.exe
 D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.pdb
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ReservationScreen.g.cs
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ReservationScreen.baml
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ListScreen.g.cs
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ListScreen.baml
