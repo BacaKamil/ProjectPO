@@ -1,0 +1,16 @@
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.AssemblyReference.cache
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.SuggestedBindingRedirects.cache
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\MainWindow.g.cs
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\App.g.cs
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO_MarkupCompile.cache
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO_MarkupCompile.lref
+D:\VisualStudio\ProjectPO\ProjectPO\bin\Debug\ProjectPO.exe.config
+D:\VisualStudio\ProjectPO\ProjectPO\bin\Debug\ProjectPO.exe
+D:\VisualStudio\ProjectPO\ProjectPO\bin\Debug\ProjectPO.pdb
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\MainWindow.baml
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.g.resources
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.Properties.Resources.resources
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.GenerateResource.cache
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.CoreCompileInputs.cache
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.exe
+D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\ProjectPO.pdb

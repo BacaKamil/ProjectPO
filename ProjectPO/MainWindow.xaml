@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPO"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.20*">
+            </ColumnDefinition>
+            <ColumnDefinition>
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Background="gray">
+            <RadioButton x:Name="FirstWindow" Content="Main Window"></RadioButton>
+            <RadioButton x:Name="SecWindow" Content="Sec Window"></RadioButton>
+        </StackPanel>
     </Grid>
 </Window>

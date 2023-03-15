@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ProjectPO
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>  
-    public partial class MainWindow : Window
+    /// Logika interakcji dla klasy List.xaml
+    /// </summary>
+    public partial class List : Page
     {
-        public MainWindow()
+        public List()
         {
             InitializeComponent();
         }
