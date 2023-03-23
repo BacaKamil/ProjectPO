@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPO"
         mc:Ignorable="d"
-        Title="Hotel App" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Hotel App" Height="600" Width="1000" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.20*">
+            <ColumnDefinition Width="0.2*">
             </ColumnDefinition>
             <ColumnDefinition>
             </ColumnDefinition>
@@ -16,7 +16,7 @@
         <StackPanel Background="gray"></StackPanel>
         <StackPanel VerticalAlignment="Center" Background="gray">
             <Button x:Name="ReservationButton" Height="50" Content="Reservation" Margin="5" Click="ReservationButton_Click"/>
-            <Button x:Name="ListButton" Height="50" Content="List" Margin="5" Click="ListButton_Click"/>
+            <Button x:Name="ListButton" Height="50" Content="Reservation list" Margin="5" Click="ListButton_Click"/>
         </StackPanel>
         <ContentControl x:Name="View" Grid.Column="1">
             <local:ReservationScreen></local:ReservationScreen>
