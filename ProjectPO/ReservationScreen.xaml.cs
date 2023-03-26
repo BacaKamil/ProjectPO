@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +24,71 @@ namespace ProjectPO
         public ReservationScreen()
         {
             InitializeComponent();
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckInCalendar.DisplayDateStart = DateTime.Now.Date;
+            CheckOutCalendar.DisplayDateStart = DateTime.Now.Date.AddDays(1);
+        }
+
+        private void CheckInCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckOutCalendar.IsEnabled= true;
+        }
+
+        private void CheckOutCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxRooms.IsEnabled= true;
+        }
+
+        private void ButtonReservation_Click(object sender, RoutedEventArgs e)
+        {
+            if (TextBoxName.Text.Length < 1)
+            {
+                MessageBox.Show("Not passed Name !");
+                return;
+            }
+            else if (TextBoxLastName.Text.Length < 1)
+            {
+                MessageBox.Show("Not passed Last Name !");
+                return;
+            }
+            else if (TextBoxMailAddress.Text.Length < 1)
+            {
+                MessageBox.Show("Not passed Mail Address !");
+                return;
+            }
+            else if (TextBoxPhoneNumber.Text.Length < 9)
+            {
+                MessageBox.Show("Not passed Phone Number or lenght of Phone Number desn't have a 9 signs !");
+                return;
+            }
+            else if (CheckInCalendar.SelectedDate.HasValue == false)
+            {
+                MessageBox.Show("Not passed Check In Date !");
+                return;
+            }
+            else if (CheckOutCalendar.SelectedDate.HasValue == false)
+            {
+                MessageBox.Show("Not passed Check Out Date !");
+                return;
+            }
+            else if (ComboBoxRooms.SelectedIndex == 0)
+            {
+                MessageBox.Show("Not passed Room !");
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Reservation Complited");
+
+                TextBoxName.Text = string.Empty;
+                TextBoxLastName.Text = string.Empty;
+                TextBoxMailAddress.Text = string.Empty;
+                TextBoxPhoneNumber.Text = string.Empty;
+                
+            }
         }
     }
 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ProjectPO"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
-    <Grid Background="SandyBrown">
+    <Grid Background="SandyBrown" Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.2*"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -22,36 +22,35 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            
+
         </Grid.RowDefinitions>
 
         <Label Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center">Name:</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox x:Name="TextBoxName" Grid.Row="1" Grid.Column="1" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
 
         <Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center">Last Name:</Label>
-        <TextBox Grid.Row="1" Grid.Column="2" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox x:Name="TextBoxLastName" Grid.Row="1" Grid.Column="2" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
 
         <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center">Mail Adderss</Label>
-        <TextBox Grid.Row="1" Grid.Column="3" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox x:Name="TextBoxMailAddress" Grid.Row="1" Grid.Column="3" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
+
+        <Label Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Center">Phone number:</Label>
+        <TextBox x:Name="TextBoxPhoneNumber" Grid.Row="2" Grid.Column="3" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
+
+        <Label Grid.Row="3" Grid.Column="3" HorizontalContentAlignment="Center">Room number and type:</Label>
+        <ComboBox x:Name="ComboBoxRooms" Grid.Row="3" Grid.Column="3" Height="20" Width="150" IsEnabled="False"></ComboBox>
+
+        <Label Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center">Check in date:</Label>
+        <Calendar x:Name="CheckInCalendar" Grid.Row="2" Grid.Column="1" IsTodayHighlighted="False" Grid.RowSpan="3" Margin="0,20,0,20" HorizontalContentAlignment="Center" SelectedDatesChanged="CheckInCalendar_SelectedDatesChanged"></Calendar>
         
-        
-        <Label Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center">Phone number:</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
+        <Label Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center">Check out date:</Label>
+        <Calendar x:Name="CheckOutCalendar" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" IsTodayHighlighted="False" Margin="0,20,0,20" HorizontalContentAlignment="Center" IsEnabled="False" SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"></Calendar>
 
-        <Label Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center">Room number and type:</Label>
-        <ComboBox Grid.Row="3" Grid.Column="1" Height="20" Width="150"></ComboBox>
+        <Label Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Center">Meals:</Label>
+        <ComboBox Grid.Row="4" Grid.Column="3" Height="20" Width="150"></ComboBox>
 
-        <Label Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center">Check in date:</Label>
-        <Calendar Grid.Row="2" Grid.Column="2" IsTodayHighlighted="False" Grid.RowSpan="3" Margin="0,20,0,20" HorizontalContentAlignment="Center"></Calendar>
-        
-        <Label Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Center">Check out date:</Label>
-        <Calendar Grid.Row="2" Grid.Column="3" Grid.RowSpan="3" IsTodayHighlighted="False" Margin="0,20,0,20" HorizontalContentAlignment="Center"></Calendar>
-
-        <Label Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center">Meals:</Label>
-        <ComboBox Grid.Row="4" Grid.Column="1" Height="20" Width="150"></ComboBox>
-
-        <Button Grid.Column="2" Grid.Row="5" Content="Reservation"></Button>
+        <Button x:Name="ButtonReservation" Grid.Column="2" Grid.Row="5" Content="Reservation" Click="ButtonReservation_Click"></Button>
 
     </Grid>
 </UserControl>
