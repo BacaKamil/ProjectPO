@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
@@ -16,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace ProjectPO
 {
-    /// <summary>
-    /// Logika interakcji dla klasy ReservationScreen.xaml
-    /// </summary>
     public partial class ReservationScreen : UserControl
     {
         public ReservationScreen()
@@ -30,6 +28,8 @@ namespace ProjectPO
         {
             CheckInCalendar.DisplayDateStart = DateTime.Now.Date;
             CheckOutCalendar.DisplayDateStart = DateTime.Now.Date.AddDays(1);
+
+
         }
 
         private void CheckInCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
