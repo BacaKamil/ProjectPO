@@ -104,7 +104,9 @@ namespace ProjectPO
                 TextBoxLastName.Text = string.Empty;
                 TextBoxMailAddress.Text = string.Empty;
                 TextBoxPhoneNumber.Text = string.Empty;
-                
+                ComboBoxRooms.SelectedIndex = -1;
+               // CheckInCalendar.SelectedDate
+                CheckOutCalendar.IsEnabled = false;
             }
         }
     }
