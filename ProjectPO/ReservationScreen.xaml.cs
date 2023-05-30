@@ -29,12 +29,29 @@ namespace ProjectPO
             CheckInCalendar.DisplayDateStart = DateTime.Now.Date;
             CheckOutCalendar.DisplayDateStart = DateTime.Now.Date.AddDays(1);
 
+            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms", connection);
+                SqlDataReader reader = command.ExecuteReader();
 
+                while (reader.Read())
+                {
+                    string roomNumber = reader.GetInt32(0).ToString();
+                    string roomType = reader.GetString(1);
+                    string itemData = roomNumber+" "+roomType;
+
+                    ComboBoxRooms.Items.Add(itemData);
+                }
+
+                connection.Close();
+            }
         }
 
         private void CheckInCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            CheckOutCalendar.IsEnabled= true;
+            CheckOutCalendar.IsEnabled = true;
+            CheckOutCalendar.DisplayDateStart = CheckInCalendar.SelectedDate.Value.AddDays(1);
         }
 
         private void CheckOutCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
