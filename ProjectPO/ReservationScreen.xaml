@@ -42,7 +42,7 @@
         <ComboBox x:Name="ComboBoxRooms" Grid.Row="3" Grid.Column="3" Height="20" Width="150" IsEnabled="False"></ComboBox>
 
         <Label Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center">Check in date:</Label>
-        <Calendar x:Name="CheckInCalendar" Grid.Row="2" Grid.Column="1" IsTodayHighlighted="False" Grid.RowSpan="3" Margin="0,20,0,20" HorizontalContentAlignment="Center" SelectedDatesChanged="CheckInCalendar_SelectedDatesChanged"></Calendar>
+        <Calendar x:Name="CheckInCalendar"  Grid.Row="2" Grid.Column="1" IsTodayHighlighted="False" Grid.RowSpan="3" Margin="0,20,0,20" HorizontalContentAlignment="Center" SelectedDatesChanged="CheckInCalendar_SelectedDatesChanged"></Calendar>
         
         <Label Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center">Check out date:</Label>
         <Calendar x:Name="CheckOutCalendar" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" IsTodayHighlighted="False" Margin="0,20,0,20" HorizontalContentAlignment="Center" IsEnabled="False" SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"></Calendar>

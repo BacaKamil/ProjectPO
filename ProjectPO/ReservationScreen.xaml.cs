@@ -32,14 +32,14 @@ namespace ProjectPO
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT boardSignature FROM Boards", connection);
+                SqlCommand command = new SqlCommand("SELECT boardSignature, boardType FROM Boards", connection);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     string boardSignature = reader.GetString(0);
-                    //string roomType = reader.GetString(1);
-                    string itemData = boardSignature;
+                    string boardType = reader.GetString(1);
+                    string itemData = $"{boardSignature} - {boardType}";
 
                     ComboBoxBoards.Items.Add(itemData);
                 }
@@ -112,26 +112,46 @@ namespace ProjectPO
             }
             else
             {
-                MessageBox.Show("Reservation Complited");
-
                 using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(
-                        "INSERT INTO Reservations (guestsName, guestsLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, price)" +
-                        " VALUES (),", connection);
-                    SqlDataReader reader = command.ExecuteReader();
+                        "INSERT INTO Reservations (guestName, guestLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue)", connection);
 
-                    connection.Close();
+                    command.Parameters.AddWithValue("@TextBoxNameValue", TextBoxName.Text);
+                    command.Parameters.AddWithValue("@TextBoxLastNameValue", TextBoxLastName.Text);
+                    command.Parameters.AddWithValue("@TextBoxPhoneNumberValue", TextBoxPhoneNumber.Text);
+                    command.Parameters.AddWithValue("@TextBoxMailAddressValue", TextBoxMailAddress.Text);
+                    command.Parameters.AddWithValue("@ComboBoxRoomsValue", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
+                    command.Parameters.AddWithValue("@CheckInCalendarValue", CheckInCalendar.SelectedDate.Value.ToShortDateString());
+                    command.Parameters.AddWithValue("@CheckOutCalendarValue", CheckOutCalendar.SelectedDate.Value.ToShortDateString());
+
+                    TimeSpan nights = CheckOutCalendar.SelectedDate.Value - CheckInCalendar.SelectedDate.Value;
+                    command.Parameters.AddWithValue("@Nights", nights.Days);
+                    command.Parameters.AddWithValue("@ComboBoxBoardsValue", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Reservation Complited");
+
+                        TextBoxName.Text = string.Empty;
+                        TextBoxLastName.Text = string.Empty;
+                        TextBoxMailAddress.Text = string.Empty;
+                        TextBoxPhoneNumber.Text = string.Empty;
+                        ComboBoxRooms.SelectedIndex = -1;
+                        // CheckInCalendar.SelectedDate                      <--------- DO POPRAWY !!!
+                        CheckOutCalendar.IsEnabled = false;
+                        ComboBoxBoards.SelectedIndex = -1;
+
+                        connection.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Reservation Failed");
+                    }
                 }
-
-                TextBoxName.Text = string.Empty;
-                TextBoxLastName.Text = string.Empty;
-                TextBoxMailAddress.Text = string.Empty;
-                TextBoxPhoneNumber.Text = string.Empty;
-                ComboBoxRooms.SelectedIndex = -1;
-               // CheckInCalendar.SelectedDate                      <--------- DO POPRAWY !!!
-                CheckOutCalendar.IsEnabled = false;
             }
         }
     }
