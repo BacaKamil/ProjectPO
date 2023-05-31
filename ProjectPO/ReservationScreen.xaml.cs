@@ -28,24 +28,6 @@ namespace ProjectPO
         {
             CheckInCalendar.DisplayDateStart = DateTime.Now.Date;
             CheckOutCalendar.DisplayDateStart = DateTime.Now.Date.AddDays(1);
-
-            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms", connection);
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    string roomNumber = reader.GetInt32(0).ToString();
-                    string roomType = reader.GetString(1);
-                    string itemData = roomNumber+" "+roomType;
-
-                    ComboBoxRooms.Items.Add(itemData);
-                }
-
-                connection.Close();
-            }
         }
 
         private void CheckInCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -57,6 +39,23 @@ namespace ProjectPO
         private void CheckOutCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxRooms.IsEnabled= true;
+            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms", connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string roomNumber = reader.GetInt32(0).ToString();
+                    string roomType = reader.GetString(1);
+                    string itemData = $"{roomNumber} {roomType}";
+
+                    ComboBoxRooms.Items.Add(itemData);
+                }
+
+                connection.Close();
+            }
         }
 
         private void ButtonReservation_Click(object sender, RoutedEventArgs e)
@@ -105,7 +104,7 @@ namespace ProjectPO
                 TextBoxMailAddress.Text = string.Empty;
                 TextBoxPhoneNumber.Text = string.Empty;
                 ComboBoxRooms.SelectedIndex = -1;
-               // CheckInCalendar.SelectedDate
+               // CheckInCalendar.SelectedDate                      <--------- DO POPRAWY !!!
                 CheckOutCalendar.IsEnabled = false;
             }
         }
