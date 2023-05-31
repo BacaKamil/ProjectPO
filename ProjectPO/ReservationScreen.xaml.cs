@@ -28,6 +28,23 @@ namespace ProjectPO
         {
             CheckInCalendar.DisplayDateStart = DateTime.Now.Date;
             CheckOutCalendar.DisplayDateStart = DateTime.Now.Date.AddDays(1);
+
+            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("SELECT boardSignature FROM Boards", connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string boardSignature = reader.GetString(0);
+                    //string roomType = reader.GetString(1);
+                    string itemData = boardSignature;
+
+                    ComboBoxBoards.Items.Add(itemData);
+                }
+                connection.Close();
+            }
         }
 
         private void CheckInCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -38,7 +55,7 @@ namespace ProjectPO
 
         private void CheckOutCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBoxRooms.IsEnabled= true;
+            ComboBoxRooms.IsEnabled = true;
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
@@ -53,11 +70,9 @@ namespace ProjectPO
 
                     ComboBoxRooms.Items.Add(itemData);
                 }
-
                 connection.Close();
             }
         }
-
         private void ButtonReservation_Click(object sender, RoutedEventArgs e)
         {
             if (TextBoxName.Text.Length < 1)
@@ -98,6 +113,17 @@ namespace ProjectPO
             else
             {
                 MessageBox.Show("Reservation Complited");
+
+                using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(
+                        "INSERT INTO Reservations (guestsName, guestsLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, price)" +
+                        " VALUES (),", connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    connection.Close();
+                }
 
                 TextBoxName.Text = string.Empty;
                 TextBoxLastName.Text = string.Empty;

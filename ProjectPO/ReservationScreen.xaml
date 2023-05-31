@@ -47,8 +47,8 @@
         <Label Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center">Check out date:</Label>
         <Calendar x:Name="CheckOutCalendar" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" IsTodayHighlighted="False" Margin="0,20,0,20" HorizontalContentAlignment="Center" IsEnabled="False" SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"></Calendar>
 
-        <Label Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Center">Meals:</Label>
-        <ComboBox Grid.Row="4" Grid.Column="3" Height="20" Width="150"></ComboBox>
+        <Label Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Center">Boards:</Label>
+        <ComboBox x:Name="ComboBoxBoards" Grid.Row="4" Grid.Column="3" Height="20" Width="150"></ComboBox>
 
         <Button x:Name="ButtonReservation" Grid.Column="2" Grid.Row="5" Content="Reservation" Click="ButtonReservation_Click"></Button>
 
