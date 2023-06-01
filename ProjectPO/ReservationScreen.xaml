@@ -22,8 +22,6 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
-            
-
         </Grid.RowDefinitions>
 
         <Label Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center">Name:</Label>
@@ -32,7 +30,7 @@
         <Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center">Last Name:</Label>
         <TextBox x:Name="TextBoxLastName" Grid.Row="1" Grid.Column="2" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
 
-        <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center">Mail Adderss</Label>
+        <Label Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center">Mail Adderss</Label>
         <TextBox x:Name="TextBoxMailAddress" Grid.Row="1" Grid.Column="3" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Center">Phone number:</Label>
@@ -45,7 +43,7 @@
         <Calendar x:Name="CheckInCalendar"  Grid.Row="2" Grid.Column="1" IsTodayHighlighted="False" Grid.RowSpan="3" Margin="0,20,0,20" HorizontalContentAlignment="Center" SelectedDatesChanged="CheckInCalendar_SelectedDatesChanged"></Calendar>
         
         <Label Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center">Check out date:</Label>
-        <Calendar x:Name="CheckOutCalendar" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" IsTodayHighlighted="False" Margin="0,20,0,20" HorizontalContentAlignment="Center" IsEnabled="False" SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"></Calendar>
+        <Calendar x:Name="CheckOutCalendar" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" IsTodayHighlighted="False" Margin="0,20,0,20" HorizontalContentAlignment="Center" IsEnabled="False" SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"/>
 
         <Label Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Center">Boards:</Label>
         <ComboBox x:Name="ComboBoxBoards" Grid.Row="4" Grid.Column="3" Height="20" Width="150"></ComboBox>
