@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -112,46 +114,75 @@ namespace ProjectPO
             }
             else
             {
+                decimal pricePerNight = 0;
+                decimal boardPrice = 0;
+                TimeSpan nights;
+
+                using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand("SELECT pricePerNight FROM Rooms WHERE roomNumber = @ComboBoxRoomsValue", connection);
+                    command.Parameters.AddWithValue("@ComboBoxRoomsValue", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        pricePerNight = reader.GetDecimal(0);
+                    }
+
+                    connection.Close();
+                }
+
+                using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand("SELECT boardPrice FROM Boards WHERE boardSignature = @ComboBoxBoardsValue", connection);
+                    command.Parameters.AddWithValue("@ComboBoxBoardsValue", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        boardPrice = reader.GetDecimal(0);
+                    }
+
+                    connection.Close();
+                }
+
                 using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(
-                        "INSERT INTO Reservations (guestName, guestLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue)", connection);
+                        "INSERT INTO Reservations (guestName, guestLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, finallyPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @FinallyPrice)", connection);
 
                     command.Parameters.AddWithValue("@TextBoxNameValue", TextBoxName.Text);
                     command.Parameters.AddWithValue("@TextBoxLastNameValue", TextBoxLastName.Text);
                     command.Parameters.AddWithValue("@TextBoxPhoneNumberValue", TextBoxPhoneNumber.Text);
                     command.Parameters.AddWithValue("@TextBoxMailAddressValue", TextBoxMailAddress.Text);
                     command.Parameters.AddWithValue("@ComboBoxRoomsValue", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
-                    command.Parameters.AddWithValue("@CheckInCalendarValue", CheckInCalendar.SelectedDate.Value.ToShortDateString());
-                    command.Parameters.AddWithValue("@CheckOutCalendarValue", CheckOutCalendar.SelectedDate.Value.ToShortDateString());
-
-                    TimeSpan nights = CheckOutCalendar.SelectedDate.Value - CheckInCalendar.SelectedDate.Value;
+                    command.Parameters.AddWithValue("@CheckInCalendarValue", CheckInCalendar.SelectedDate);
+                    command.Parameters.AddWithValue("@CheckOutCalendarValue", CheckOutCalendar.SelectedDate);
+                    nights = CheckOutCalendar.SelectedDate.Value - CheckInCalendar.SelectedDate.Value;
                     command.Parameters.AddWithValue("@Nights", nights.Days);
                     command.Parameters.AddWithValue("@ComboBoxBoardsValue", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+                    command.Parameters.AddWithValue("@FinallyPrice", (pricePerNight * nights.Days)+(boardPrice * nights.Days));
 
                     int rowsAffected = command.ExecuteNonQuery();
 
                     if (rowsAffected > 0)
                     {
-                        MessageBox.Show("Reservation Complited");
-
-                        TextBoxName.Text = string.Empty;
-                        TextBoxLastName.Text = string.Empty;
-                        TextBoxMailAddress.Text = string.Empty;
-                        TextBoxPhoneNumber.Text = string.Empty;
-                        ComboBoxRooms.SelectedIndex = -1;
-                        // CheckInCalendar.SelectedDate                      <--------- DO POPRAWY !!!
-                        CheckOutCalendar.IsEnabled = false;
-                        ComboBoxBoards.SelectedIndex = -1;
-
-                        connection.Close();
+                        MessageBox.Show("INSERT operation successful.");
                     }
                     else
                     {
-                        MessageBox.Show("Reservation Failed");
+                        MessageBox.Show("INSERT operation failed.");
                     }
                 }
+
+               //MessageBox.Show((pricePerNight * nights.Days).ToString());
             }
         }
     }
