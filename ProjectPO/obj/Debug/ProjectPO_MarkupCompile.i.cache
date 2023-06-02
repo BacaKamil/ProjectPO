@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\VisualStudio\ProjectPO\ProjectPO\obj\Debug\
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\
 ProjectPO
 none
 false
 DEBUG;TRACE
-D:\VisualStudio\ProjectPO\ProjectPO\App.xaml
-3769231419
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\App.xaml
+4349985210
 
-8-511627059
+9-819203198
 13-1310406943
-ListScreen.xaml;MainWindow.xaml;ReservationScreen.xaml;
+ListScreen.xaml;LoginPanelScreen.xaml;MainWindow.xaml;ReservationScreen.xaml;
 
 True
 

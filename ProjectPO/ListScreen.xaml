@@ -27,7 +27,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="30">Reservations List</Label>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontSize="30">Reservations List</Label>
         <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="2"></ListBox>
     </Grid>
 </UserControl>

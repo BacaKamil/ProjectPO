@@ -40,3 +40,5 @@ C:\Users\kamil\Source\Repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.Gener
 C:\Users\kamil\Source\Repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.CoreCompileInputs.cache
 C:\Users\kamil\Source\Repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.exe
 C:\Users\kamil\Source\Repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.pdb
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\LoginPanelScreen.g.cs
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\LoginPanelScreen.baml
