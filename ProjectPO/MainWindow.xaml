@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Hotel App" 
         Height="600" Width="1000" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.2*">
@@ -16,7 +16,7 @@
             </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Background="gray"></StackPanel>
-        <Label x:Name="LabelUser" FontWeight="Bold">USER</Label>
+        <Label x:Name="LabelUser" FontWeight="Bold" Content="USER" Grid.ColumnSpan="2" Margin="0,0,833,0"/>
         <StackPanel VerticalAlignment="Center" Background="gray">
             <Button x:Name="ReservationButton" Height="50" Content="Reservation" Margin="5" Click="ReservationButton_Click"/>
             <Button x:Name="ListButton" Height="50" Content="Reservations list" Margin="5" Click="ListButton_Click"/>

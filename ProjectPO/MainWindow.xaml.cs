@@ -12,12 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ProjectPO;
+using static ProjectPO.LoginPanelScreen;
 
 namespace ProjectPO
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>  
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -33,6 +32,12 @@ namespace ProjectPO
         private void ListButton_Click(object sender, RoutedEventArgs e)
         {
             View.Content = new ListScreen();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitializeComponent();
+            LabelUser.Content = $"{EmployeeName} {EmployeeLastName}";
         }
     }
 }

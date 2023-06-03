@@ -11,10 +11,17 @@ namespace ProjectPO
             InitializeComponent();
         }
 
+        public static string EmployeeName { get; set; }
+        public static string EmployeeLastName { get; set; }
+
+
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string login = TextBoxLogin.Text;
             string password = PasswordBoxPassword.Password;
+            EmployeeName = "NAME";
+            EmployeeLastName = "LASTNAME"; // branie z bazy name i lastname
+
 
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
