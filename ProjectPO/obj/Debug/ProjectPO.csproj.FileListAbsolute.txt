@@ -42,3 +42,8 @@ C:\Users\kamil\Source\Repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.exe
 C:\Users\kamil\Source\Repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.pdb
 C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\LoginPanelScreen.g.cs
 C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\LoginPanelScreen.baml
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BCrypt.Net.dll
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BCrypt.Net.xml
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BouncyCastle.Crypto.xml
+C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.CopyComplete

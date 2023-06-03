@@ -30,7 +30,7 @@
         <Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center">Last Name:</Label>
         <TextBox x:Name="TextBoxLastName" Grid.Row="1" Grid.Column="2" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
 
-        <Label Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center">Mail Adderss</Label>
+        <Label Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center">E-mail Address</Label>
         <TextBox x:Name="TextBoxMailAddress" Grid.Row="1" Grid.Column="3" Height="20" Width="150" HorizontalContentAlignment="Center"></TextBox>
 
         <Label Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Center">Phone number:</Label>
@@ -48,7 +48,7 @@
         <Label Grid.Row="4" Grid.Column="3" HorizontalContentAlignment="Center">Boards:</Label>
         <ComboBox x:Name="ComboBoxBoards" Grid.Row="4" Grid.Column="3" Height="20" Width="150"></ComboBox>
 
-        <Button x:Name="ButtonReservation" Grid.Column="2" Grid.Row="5" Content="Reservation" Click="ButtonReservation_Click"></Button>
+        <Button x:Name="ButtonReservation" Grid.Column="2" Grid.Row="5" Content="Book" Click="ButtonReservation_Click"></Button>
 
     </Grid>
 </UserControl>
