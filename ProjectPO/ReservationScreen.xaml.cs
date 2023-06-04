@@ -141,7 +141,7 @@ namespace ProjectPO
                 using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand("INSERT INTO Reservations (guestName, guestLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, finallyPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @FinallyPrice)", connection);
+                    SqlCommand command = new SqlCommand("INSERT INTO Reservations (guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, finallyPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @FinallyPrice)", connection);
 
                     command.Parameters.AddWithValue("@TextBoxNameValue", TextBoxName.Text);
                     command.Parameters.AddWithValue("@TextBoxLastNameValue", TextBoxLastName.Text);

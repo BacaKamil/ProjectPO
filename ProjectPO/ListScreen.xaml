@@ -27,8 +27,8 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="2"></ListBox>
+        <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="2" SelectionChanged="ListBoxReservations_SelectionChanged"></ListBox>
 
-        <TextBlock x:Name="TextBlockInformations" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
+        <TextBlock x:Name="TextBlockInformations" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="5"></TextBlock>
     </Grid>
 </UserControl>
