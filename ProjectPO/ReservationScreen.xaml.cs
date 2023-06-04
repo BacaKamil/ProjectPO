@@ -169,5 +169,7 @@ namespace ProjectPO
                 }
             }
         }
+        
+        //total price label
     }
 }

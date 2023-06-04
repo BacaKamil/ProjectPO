@@ -59,12 +59,6 @@ namespace ProjectPO
                     MessageBox.Show("An error occurred during login: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-
-            //EmployeeName = "Name";
-            //EmployeeLastName = "LastName";
-            //MainWindow mainWindow = new MainWindow();
-            //mainWindow.Show();
-            //Close();
         }
     }
 }
