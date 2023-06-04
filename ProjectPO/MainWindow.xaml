@@ -10,16 +10,16 @@
         WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*">
-            </ColumnDefinition>
-            <ColumnDefinition>
-            </ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="gray"></StackPanel>
-        <Label x:Name="LabelUser" FontWeight="Bold" Content="USER" Grid.ColumnSpan="2" Margin="0,0,833,0"/>
+        <StackPanel Background="gray">
+            <Label x:Name="LabelUser" FontWeight="Bold" Content="USER"></Label>
+            <Button x:Name="LogoutButton" Height="30" Width="120" Content="Logout"  Padding="0" Margin="0,4,0,0" Click="LogoutButton_Click"></Button>
+        </StackPanel>
         <StackPanel VerticalAlignment="Center" Background="gray">
-            <Button x:Name="ReservationButton" Height="50" Content="Reservation" Margin="5" Click="ReservationButton_Click"/>
-            <Button x:Name="ListButton" Height="50" Content="Reservations list" Margin="5" Click="ListButton_Click"/>
+            <Button x:Name="ReservationButton" Height="50" Content="Reservation" Margin="5" Click="ReservationButton_Click"></Button>
+            <Button x:Name="ListButton" Height="50" Content="Reservations list" Margin="5" Click="ListButton_Click"></Button>
         </StackPanel>
         <ContentControl x:Name="View" Grid.Column="1">
             <local:ReservationScreen></local:ReservationScreen>

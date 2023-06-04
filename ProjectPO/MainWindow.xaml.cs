@@ -25,5 +25,12 @@ namespace ProjectPO
             InitializeComponent();
             LabelUser.Content = $"{EmployeeName} {EmployeeLastName}";
         }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginPanelScreen loginPanel = new LoginPanelScreen();
+            loginPanel.Show();
+            Close();
+        }
     }
 }
