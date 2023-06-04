@@ -1,21 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ProjectPO
 {
@@ -75,7 +61,7 @@ namespace ProjectPO
                 connection.Close();
             }
         }
-        private void ButtonReservation_Click(object sender, RoutedEventArgs e)
+        private void ButtonBook_Click(object sender, RoutedEventArgs e)
         {
             if (TextBoxName.Text.Length < 1)
             {
@@ -87,7 +73,7 @@ namespace ProjectPO
                 MessageBox.Show("Not passed Last Name !");
                 return;
             }
-            else if (TextBoxMailAddress.Text.Length < 1)
+            else if (TextBoxEmailAddress.Text.Length < 1)
             {
                 MessageBox.Show("Not passed Mail Address !");
                 return;
@@ -155,13 +141,12 @@ namespace ProjectPO
                 using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand(
-                        "INSERT INTO Reservations (guestName, guestLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, finallyPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @FinallyPrice)", connection);
+                    SqlCommand command = new SqlCommand("INSERT INTO Reservations (guestName, guestLastName, phoneNumber, mailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, finallyPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @FinallyPrice)", connection);
 
                     command.Parameters.AddWithValue("@TextBoxNameValue", TextBoxName.Text);
                     command.Parameters.AddWithValue("@TextBoxLastNameValue", TextBoxLastName.Text);
                     command.Parameters.AddWithValue("@TextBoxPhoneNumberValue", TextBoxPhoneNumber.Text);
-                    command.Parameters.AddWithValue("@TextBoxMailAddressValue", TextBoxMailAddress.Text);
+                    command.Parameters.AddWithValue("@TextBoxMailAddressValue", TextBoxEmailAddress.Text);
                     command.Parameters.AddWithValue("@ComboBoxRoomsValue", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
                     command.Parameters.AddWithValue("@CheckInCalendarValue", CheckInCalendar.SelectedDate);
                     command.Parameters.AddWithValue("@CheckOutCalendarValue", CheckOutCalendar.SelectedDate);
@@ -180,9 +165,8 @@ namespace ProjectPO
                     {
                         MessageBox.Show("INSERT operation failed.");
                     }
+                    connection.Close();
                 }
-
-               //MessageBox.Show((pricePerNight * nights.Days).ToString());
             }
         }
     }
