@@ -1,9 +1,11 @@
 ﻿using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace ProjectPO
 {
+    
     public partial class ListScreen : UserControl
     {
         public ListScreen()
@@ -35,6 +37,8 @@ namespace ProjectPO
 
         private void ListBoxReservations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            TextBlockInformations.Visibility = Visibility.Visible;
+
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
@@ -44,16 +48,62 @@ namespace ProjectPO
 
                 while (reader.Read())
                 {
-                    TextBlockInformations.Text = reader.GetString(0);
-                    TextBlockInformations.Text += "\n" + reader.GetString(1);
-                    TextBlockInformations.Text += "\n" + reader.GetString(2);
-                    TextBlockInformations.Text += "\n" + reader.GetString(3);
-                    TextBlockInformations.Text += "\n" + reader.GetInt32(4);
-                    TextBlockInformations.Text += "\n" + reader.GetDateTime(5).ToString("dd.mm.yyyy");
-                    TextBlockInformations.Text += "\n" + reader.GetDateTime(6).ToString("dd.mm.yyyy");
-                    TextBlockInformations.Text += "\n" + reader.GetInt32(7);
-                    TextBlockInformations.Text += "\n" + reader.GetString(8);
-                    TextBlockInformations.Text += "\n" + reader.GetDecimal(9);
+                    TextBlockInformations.Inlines.Add(new Run("Name: ") { FontWeight = FontWeights.Bold});
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetString(0)));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Last name: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetString(1)));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Phone number: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetString(2)));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("E-mail address: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetString(3)));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Room number: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetInt32(4).ToString()));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Check in date: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetDateTime(5).ToString("d")));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Check out date: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetDateTime(6).ToString("d")));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Nights: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetInt32(7).ToString()));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Board type: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetString(8)));
+
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+                    TextBlockInformations.Inlines.Add(new LineBreak());
+
+                    TextBlockInformations.Inlines.Add(new Run("Finally price: ") { FontWeight = FontWeights.Bold });
+                    TextBlockInformations.Inlines.Add(new Run(reader.GetDecimal(9).ToString("F2") + " zł"));
                 }
                 connection.Close();
             }
