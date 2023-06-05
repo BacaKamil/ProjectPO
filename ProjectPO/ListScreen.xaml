@@ -31,8 +31,10 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="4" SelectionChanged="ListBoxReservations_SelectionChanged"></ListBox>
+        <Border x:Name="ShadowListBoxReservation" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4"  Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
+        <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="4" FontSize="15" SelectionChanged="ListBoxReservations_SelectionChanged"></ListBox>
 
+        <Border x:Name="ShadowTextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
         <TextBlock x:Name="TextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="White" FontSize="15" Padding="10,10,10,10"></TextBlock>
     </Grid>
 </UserControl>

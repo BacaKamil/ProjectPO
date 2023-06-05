@@ -38,6 +38,7 @@ namespace ProjectPO
         private void ListBoxReservations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TextBlockInformations.Visibility = Visibility.Visible;
+            ShadowTextBlockInformations.Visibility = Visibility.Visible;
 
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
