@@ -5,36 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectPO"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="SaddleBrown" Loaded="Grid_Loaded">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.4*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="0.4*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             Background="Transparent">
 
-        <Border x:Name="ShadowListBoxReservation" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4"  Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
-        <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="4" FontSize="15" SelectionChanged="ListBoxReservations_SelectionChanged"></ListBox>
+    <Border CornerRadius="12">
+        <Border CornerRadius="15"                    
+                BorderThickness="2,2,0,0">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
 
-        <Border x:Name="ShadowTextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
-        <TextBlock x:Name="TextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="White" FontSize="15" Padding="10,10,10,10"></TextBlock>
-    </Grid>
+            <Grid Loaded="Grid_Loaded">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Border x:Name="ShadowListBoxReservation" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4"  Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
+                <ListBox x:Name="ListBoxReservations" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" Grid.ColumnSpan="4" FontSize="15" SelectionChanged="ListBoxReservations_SelectionChanged"></ListBox>
+
+                <Border x:Name="ShadowTextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
+                <TextBlock x:Name="TextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="White" FontSize="15" Padding="10,10,10,10"></TextBlock>
+            </Grid>
+        </Border>
+    </Border>
 </UserControl>
