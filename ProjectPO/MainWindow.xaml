@@ -6,23 +6,200 @@
         xmlns:local="clr-namespace:ProjectPO"
         mc:Ignorable="d"
         Title="Hotel App" 
-        Height="600" Width="1000" 
-        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <StackPanel Background="gray">
-            <Label x:Name="LabelUser" FontWeight="Bold" Content="USER"></Label>
-            <Button x:Name="LogoutButton" Height="30" Width="120" Content="Logout"  Padding="0" Margin="0,4,0,0" Click="LogoutButton_Click"></Button>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Center" Background="gray">
-            <Button x:Name="ReservationButton" Height="50" Content="Reservation" Margin="5" Click="ReservationButton_Click"></Button>
-            <Button x:Name="ListButton" Height="50" Content="Reservations list" Margin="5" Click="ListButton_Click"></Button>
-        </StackPanel>
-        <ContentControl x:Name="View" Grid.Column="1">
-            <local:ReservationScreen></local:ReservationScreen>
-        </ContentControl>
-    </Grid>
+        Height="600" 
+        Width="1000" 
+        WindowStartupLocation="CenterScreen" 
+        Loaded="Window_Loaded"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True"
+        MouseDown="Window_MouseDown">
+
+    <Border CornerRadius="12">
+        <Border CornerRadius="15"                    
+                BorderThickness="2">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.04*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.1*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!--Close button-->
+                <Button x:Name="ButtonClose" 
+                        Grid.Column="2"
+                        Content="X"
+                        BorderThickness="0"
+                        Foreground="White"
+                        FontSize="12"
+                        FontFamily="Montserrat"
+                        Cursor="Hand" 
+                        Click="ButtonClose_Click">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#DA34AE"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFE8AADE"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="18" 
+                                        Height="18"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <StackPanel Grid.RowSpan="3">
+                    
+                    <!--User label-->
+                    <Label x:Name="LabelUser" 
+                   FontWeight="Bold" 
+                   Content="USER"
+                   Foreground="DarkGray"
+                   FontFamily="Montserrat">
+                    </Label>
+    
+                    <!--Logout button-->
+                    <Button x:Name="ButtonLogout" 
+                    Height="30" 
+                    Width="120" 
+                    Content="Logout" 
+                    Padding="0" 
+                    Margin="0,4,0,0" 
+                    Click="ButtonLogout_Click"                 
+                    BorderThickness="0"                       
+                    Foreground="White"
+                    FontSize="12"
+                    FontFamily="Montserrat"
+                    Cursor="Hand">
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="20"
+                                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center" Grid.RowSpan="3">
+                    
+                    <!--Reservation button-->
+                    <Button x:Name="ButtonReservation" 
+                    Height="50" 
+                    Content="Reservation" 
+                    Margin="5" 
+                    Click="ButtonReservation_Click"
+                    BorderThickness="0"                       
+                    Foreground="White"
+                    FontSize="12"
+                    FontFamily="Montserrat"
+                    Cursor="Hand">
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="20"
+                                Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <!--List button-->
+                    <Button x:Name="ButtonList" 
+                    Height="50" 
+                    Content="Reservations list" 
+                    Margin="5" 
+                    Click="ButtonList_Click"
+                    BorderThickness="0"                       
+                    Foreground="White"
+                    FontSize="12"
+                    FontFamily="Montserrat"
+                    Cursor="Hand">
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="20"
+                                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                </StackPanel>
+
+                <ContentControl x:Name="View" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2">
+                    <local:ReservationScreen></local:ReservationScreen>
+                </ContentControl>
+            </Grid>
+        </Border>
+    </Border>
 </Window>
