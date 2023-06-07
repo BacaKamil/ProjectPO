@@ -5,37 +5,164 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPO"
         mc:Ignorable="d"
+        Height="300" Width="500"
+        WindowStyle="None"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize"
-        Height="200" Width="400">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+        Background="Transparent"
+        AllowsTransparency="True">
 
-        <Label Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Login:</Label>
-        <TextBox x:Name="TextBoxLogin" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+    <Border CornerRadius="12">
+        <Border CornerRadius="10"                    
+                BorderThickness="2">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
 
-        <Label Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="4" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Password:</Label>
-        <PasswordBox x:Name="PasswordBoxPassword" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="5" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></PasswordBox>
+                <!--Login-->
+                <Label Grid.Column="2" 
+                       Grid.ColumnSpan="3" 
+                       Grid.Row="2" Padding="0" 
+                       VerticalContentAlignment="Center" 
+                       HorizontalContentAlignment="Center"
+                       Foreground="DarkGray"
+                       FontSize="15"
+                       FontWeight="Medium"
+                       FontFamily="Montserrat"
+                       Content="Login:"></Label>
+                
+                <TextBox x:Name="TextBoxLogin" 
+                         Grid.Column="2" 
+                         Grid.ColumnSpan="3" 
+                         Grid.Row="3" 
+                         VerticalAlignment="Center" 
+                         VerticalContentAlignment="Center" 
+                         HorizontalContentAlignment="Center"></TextBox>
 
-        <Button x:Name="ButtonLogin" Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Margin="57,2,57,11" Click="ButtonLogin_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Content="Login"></Button>
-    </Grid>
+                <!--Password-->
+                <Label Grid.Column="2" 
+                       Grid.ColumnSpan="3" 
+                       Grid.Row="4" 
+                       Padding="0" 
+                       VerticalContentAlignment="Center" 
+                       HorizontalContentAlignment="Center"
+                       Foreground="DarkGray"
+                       FontSize="15"
+                       FontWeight="Medium"
+                       FontFamily="Montserrat"
+                       Content="Password:"></Label>
+                <PasswordBox x:Name="PasswordBoxPassword" 
+                             Grid.Column="2" 
+                             Grid.ColumnSpan="3" 
+                             Grid.Row="5" 
+                             VerticalAlignment="Center" 
+                             VerticalContentAlignment="Center" 
+                             HorizontalContentAlignment="Center"></PasswordBox>
+                
+                <!--Login button-->
+                <Button x:Name="ButtonLogin" 
+                        Grid.Row="6" 
+                        Grid.Column="2" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Center" 
+                        Padding="0" 
+                        Margin="57,2,57,11" 
+                        Click="ButtonLogin_Click" 
+                        Grid.ColumnSpan="3" 
+                        Grid.RowSpan="2"
+                        BorderThickness="0"
+                        
+                        Foreground="White"
+                        FontSize="12"
+                        FontFamily="Montserrat"
+                        Cursor="Hand"                           
+                        Content="Login">
+                        <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="#462AD8"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#28AEED"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                </Button>
+
+                <Button x:Name="ButtonClose"
+                        Grid.Column="6"
+                        BorderThickness="0"
+                        Content="X"
+                        Foreground="White"
+                        FontSize="12"
+                        FontFamily="Montserrat"
+                        Cursor="Hand" Click="ButtonClose_Click">
+                    
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#DA34AE"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFE8AADE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="18" 
+                                        Height="18"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                </Button>
+
+            </Grid>
+        </Border>
+    </Border>
 </Window>

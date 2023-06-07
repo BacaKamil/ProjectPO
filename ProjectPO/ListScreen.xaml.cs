@@ -5,7 +5,6 @@ using System.Windows.Documents;
 
 namespace ProjectPO
 {
-    
     public partial class ListScreen : UserControl
     {
         public ListScreen()
