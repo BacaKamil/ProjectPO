@@ -70,9 +70,6 @@
     <Compile Include="ReservationScreen.xaml.cs">
       <DependentUpon>ReservationScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsScreen.xaml.cs">
-      <DependentUpon>SettingsScreen.xaml</DependentUpon>
-    </Compile>
     <Page Include="ListScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,10 +91,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ReservationScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SettingsScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

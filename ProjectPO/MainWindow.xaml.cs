@@ -44,10 +44,5 @@ namespace ProjectPO
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
-
-        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
-        {
-            View.Content = new SettingsScreen();
-        }
     }
 }
