@@ -43,7 +43,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <!--Name-->
                 <Label Grid.Row="1" 
                        Grid.Column="1" 
@@ -138,7 +138,7 @@
                        FontWeight="Medium"
                        FontSize="15">
                 </Label>
-                
+
                 <ComboBox x:Name="ComboBoxRooms" 
                           Grid.Row="3" 
                           Grid.Column="3" 
@@ -146,11 +146,11 @@
                           VerticalAlignment="Center"
                           Height="25" 
                           Width="150" 
-                          IsEnabled="False"
+                          
                           Cursor="Hand"
                           Margin="0,5,0,0" SelectionChanged="ComboBoxRooms_SelectionChanged">
                 </ComboBox>
-                
+
                 <!--Check in date-->
                 <Label Grid.Row="2" 
                        Grid.Column="1" 
@@ -161,17 +161,14 @@
                        FontWeight="Medium"
                        FontSize="15">
                 </Label>
-                
-                <Calendar x:Name="CheckInCalendar"  
+
+                <DatePicker x:Name="CheckInCalendar"  
                           Grid.Row="2" 
                           Grid.Column="1" 
                           IsTodayHighlighted="False" 
-                          Grid.RowSpan="3" 
-                          Margin="0,25,0,20" 
-                          HorizontalContentAlignment="Center" 
-                          SelectedDatesChanged="CheckInCalendar_SelectedDatesChanged"
-                          SelectionMode="SingleDate"                      
-                          Cursor="Hand"/>
+                          Margin="0,25,234,0" 
+                          HorizontalContentAlignment="Center"                    
+                          Cursor="Hand" SelectedDateChanged="CheckInCalendar_SelectedDateChanged" Grid.ColumnSpan="2" BorderBrush="{x:Null}"/>
 
                 <!--Check out date-->
                 <Label Grid.Row="2" 
@@ -184,19 +181,15 @@
                        FontSize="15">
                 </Label>
 
-                <Calendar x:Name="CheckOutCalendar" 
+                <DatePicker x:Name="CheckOutCalendar" 
                           Grid.Row="2" 
                           Grid.Column="2" 
-                          Grid.RowSpan="3" 
                           IsTodayHighlighted="False" 
-                          Margin="0,25,0,20" 
+                          Margin="0,25,0,0" 
                           HorizontalContentAlignment="Center" 
-                          IsEnabled="False"
-                          
-                          SelectionMode="SingleDate"
-                          SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"
-                          Cursor="Hand">
-                </Calendar>
+                          IsEnabled="False"                        
+                          Cursor="Hand" 
+                          SelectedDateChanged="CheckOutCalendar_SelectedDateChanged" BorderBrush="{x:Null}"/>
 
                 <!--Boards-->
                 <Label Grid.Row="4" 

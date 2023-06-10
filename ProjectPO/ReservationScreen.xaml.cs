@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace ProjectPO
 {
@@ -40,24 +39,6 @@ namespace ProjectPO
                 }
                 connection.Close();
             }
-        }
-
-        private void CheckInCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CheckOutCalendar.IsEnabled = true;
-            CheckOutCalendar.SelectedDate = null;
-            CheckOutCalendar.DisplayDateStart = CheckInCalendar.SelectedDate.Value.AddDays(1);
-            RoomAvailability();
-            NightsCounter();
-            TotalPriceChanger();
-        }
-
-        private void CheckOutCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RoomAvailability();
-            NightsCounter();
-            TotalPriceChanger();
-            ComboBoxRooms.IsEnabled = true;
         }
 
         private void ComboBoxRooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -151,17 +132,19 @@ namespace ProjectPO
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
-
-                SqlCommand command = new SqlCommand("SELECT pricePerNight FROM Rooms WHERE roomNumber = @ComboBoxRoomsValue", connection);
-                command.Parameters.AddWithValue("@ComboBoxRoomsValue", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                try
                 {
-                    pricePerNight = reader.GetDecimal(0);
-                }
+                    SqlCommand command = new SqlCommand("SELECT pricePerNight FROM Rooms WHERE roomNumber = @ComboBoxRoomsValue", connection);
+                    command.Parameters.AddWithValue("@ComboBoxRoomsValue", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
 
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        pricePerNight = reader.GetDecimal(0);
+                    }
+                }
+                catch (NullReferenceException) { }
                 connection.Close();
             }
         }
@@ -171,16 +154,19 @@ namespace ProjectPO
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
-
-                SqlCommand command = new SqlCommand("SELECT boardPrice FROM Boards WHERE boardSignature = @ComboBoxBoardsValue", connection);
-                command.Parameters.AddWithValue("@ComboBoxBoardsValue", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                try
                 {
-                    boardPrice = reader.GetDecimal(0);
+                    SqlCommand command = new SqlCommand("SELECT boardPrice FROM Boards WHERE boardSignature = @ComboBoxBoardsValue", connection);
+                    command.Parameters.AddWithValue("@ComboBoxBoardsValue", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        boardPrice = reader.GetDecimal(0);
+                    }
                 }
+                catch (NullReferenceException) { }
 
                 connection.Close();
             }
@@ -202,35 +188,53 @@ namespace ProjectPO
         {
             OutRoomsList.Clear();
             ComboBoxRooms.Items.Clear();
-            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
-            {
-                try
+
+            if (CheckInCalendar.SelectedDate != null && CheckOutCalendar.SelectedDate != null)
+            { 
+                using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+                {
+                    try
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand("SELECT roomNumber FROM Reservations WHERE (checkIn <= @SelectCheckInDate and checkOut >= @SelectCheckInDate) or (checkIn <= @SelectCheckOutDate and checkOut >= @SelectCheckOutDate)", connection);
+                        command.Parameters.AddWithValue("@SelectCheckInDate", CheckInCalendar.SelectedDate);
+                        command.Parameters.AddWithValue("@SelectCheckOutDate", CheckOutCalendar.SelectedDate);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            int roomNumber = reader.GetInt32(0);
+                            OutRoomsList.Add(roomNumber);
+                        }
+                    }
+                    catch(System.Data.SqlClient.SqlException) { }
+                    connection.Close();
+                }
+
+                using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand("SELECT roomNumber FROM Reservations WHERE (checkIn <= @SelectCheckInDate and checkOut >= @SelectCheckInDate) or (checkIn <= @SelectCheckOutDate and checkOut >= @SelectCheckOutDate)", connection);
-                    command.Parameters.AddWithValue("@SelectCheckInDate", CheckInCalendar.SelectedDate);
-                    command.Parameters.AddWithValue("@SelectCheckOutDate", CheckOutCalendar.SelectedDate);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    if (OutRoomsList.Count > 0)
                     {
-                        int roomNumber = reader.GetInt32(0);
-                        OutRoomsList.Add(roomNumber);
+                        foreach (int room in OutRoomsList)
+                        {
+                            SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms WHERE NOT roomNumber = @OutRoom", connection);
+                            command.Parameters.AddWithValue("@OutRoom", room);
+                            SqlDataReader reader = command.ExecuteReader();
+
+                            while (reader.Read())
+                            {
+                                string roomNumber = reader.GetInt32(0).ToString();
+                                string roomType = reader.GetString(1);
+                                string itemData = $"{roomNumber} {roomType}";
+
+                                ComboBoxRooms.Items.Add(itemData);
+                            }
+                        }
                     }
-                }
-                catch(System.Data.SqlClient.SqlException) { }
-                connection.Close();
-            }
-
-            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
-            {
-                connection.Open();
-                if (OutRoomsList.Count > 0)
-                {
-                    foreach (int room in OutRoomsList)
+                    else
                     {
-                        SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms WHERE NOT roomNumber = @OutRoom", connection);
-                        command.Parameters.AddWithValue("@OutRoom", room);
+                        SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms", connection);
                         SqlDataReader reader = command.ExecuteReader();
 
                         while (reader.Read())
@@ -242,22 +246,9 @@ namespace ProjectPO
                             ComboBoxRooms.Items.Add(itemData);
                         }
                     }
-                }
-                else 
-                {
-                    SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms", connection);
-                    SqlDataReader reader = command.ExecuteReader();
+                    connection.Close();
 
-                    while (reader.Read())
-                    {
-                        string roomNumber = reader.GetInt32(0).ToString();
-                        string roomType = reader.GetString(1);
-                        string itemData = $"{roomNumber} {roomType}";
-
-                        ComboBoxRooms.Items.Add(itemData);
-                    }
                 }
-                connection.Close();
             }
         }
 
@@ -269,6 +260,24 @@ namespace ProjectPO
             {
                 LabelTotalPrice.Content = totalPrice;
             }
+        }
+        private void CheckInCalendar_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckOutCalendar.IsEnabled = true;
+            CheckOutCalendar.SelectedDate = null;
+            CheckOutCalendar.DisplayDateStart = CheckInCalendar.SelectedDate.Value.AddDays(1);
+            ComboBoxBoards.SelectedIndex = -1;
+            RoomAvailability();
+            NightsCounter();
+            TotalPriceChanger();
+        }
+
+        private void CheckOutCalendar_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RoomAvailability();
+            NightsCounter();
+            TotalPriceChanger();
+            ComboBoxRooms.IsEnabled = true;
         }
     }
 }
