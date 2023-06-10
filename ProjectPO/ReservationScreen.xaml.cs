@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,19 +45,44 @@ namespace ProjectPO
         private void CheckOutCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBoxRooms.IsEnabled = true;
+
+            List<int> OutRoomsList = new List<int>();
+
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms", connection);
+                SqlCommand command = new SqlCommand("SELECT roomNumber FROM Reservations WHERE (checkIn <= @SelectCheckInDate and checkOut >= @SelectCheckInDate)", connection);
+                command.Parameters.AddWithValue("@SelectCheckInDate", CheckInCalendar.SelectedDate);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    string roomNumber = reader.GetInt32(0).ToString();
-                    string roomType = reader.GetString(1);
-                    string itemData = $"{roomNumber} {roomType}";
+                    int roomNumber = reader.GetInt32(0);
 
-                    ComboBoxRooms.Items.Add(itemData);
+                    OutRoomsList.Add(roomNumber);
+                }
+                connection.Close();
+            }
+
+            using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
+            {
+                connection.Open();
+
+                foreach (int room in OutRoomsList)
+                {
+
+                    SqlCommand command = new SqlCommand("SELECT roomNumber, roomType FROM Rooms WHERE NOT roomNumber = @OutRoom", connection);
+                    command.Parameters.AddWithValue("@OutRoom", room);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string roomNumber = reader.GetInt32(0).ToString();
+                        string roomType = reader.GetString(1);
+                        string itemData = $"{roomNumber} {roomType}";
+
+                        ComboBoxRooms.Items.Add(itemData);
+                    }
                 }
                 connection.Close();
             }
@@ -141,7 +167,7 @@ namespace ProjectPO
                 using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand("INSERT INTO Reservations (guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, finallyPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @FinallyPrice)", connection);
+                    SqlCommand command = new SqlCommand("INSERT INTO Reservations (guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, totalPrice) VALUES (@TextBoxNameValue, @TextBoxLastNameValue, @TextBoxPhoneNumberValue, @TextBoxMailAddressValue, @ComboBoxRoomsValue, @CheckInCalendarValue, @CheckOutCalendarValue, @Nights, @ComboBoxBoardsValue, @TotalPrice)", connection);
 
                     command.Parameters.AddWithValue("@TextBoxNameValue", TextBoxName.Text);
                     command.Parameters.AddWithValue("@TextBoxLastNameValue", TextBoxLastName.Text);
@@ -153,7 +179,7 @@ namespace ProjectPO
                     nights = CheckOutCalendar.SelectedDate.Value - CheckInCalendar.SelectedDate.Value;
                     command.Parameters.AddWithValue("@Nights", nights.Days);
                     command.Parameters.AddWithValue("@ComboBoxBoardsValue", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
-                    command.Parameters.AddWithValue("@FinallyPrice", (pricePerNight * nights.Days)+(boardPrice * nights.Days));
+                    command.Parameters.AddWithValue("@TotalPrice", (pricePerNight * nights.Days)+(boardPrice * nights.Days));
 
                     int rowsAffected = command.ExecuteNonQuery();
 

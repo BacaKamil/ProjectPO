@@ -42,7 +42,7 @@ namespace ProjectPO
             using (SqlConnection connection = new SqlConnection("Server=LAPTOPKAMIL;Database=ProjectPO;Integrated Security=True;"))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("SELECT guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardType, finallyPrice FROM Reservations JOIN Boards ON Boards.boardSignature = Reservations.boardSignature WHERE reservationID = @ReservationID", connection);
+                SqlCommand command = new SqlCommand("SELECT guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardType, totalPrice FROM Reservations JOIN Boards ON Boards.boardSignature = Reservations.boardSignature WHERE reservationID = @ReservationID", connection);
                 command.Parameters.AddWithValue("@ReservationID", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
                 SqlDataReader reader = command.ExecuteReader();
 

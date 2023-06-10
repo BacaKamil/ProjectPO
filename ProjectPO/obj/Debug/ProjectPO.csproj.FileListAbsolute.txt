@@ -47,5 +47,3 @@ C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BouncyCastle.Crypto.dl
 C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BCrypt.Net.xml
 C:\Users\kamil\source\repos\ProjectPO\ProjectPO\bin\Debug\BouncyCastle.Crypto.xml
 C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\ProjectPO.csproj.CopyComplete
-C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\SettingsScreen.g.cs
-C:\Users\kamil\source\repos\ProjectPO\ProjectPO\obj\Debug\SettingsScreen.baml
