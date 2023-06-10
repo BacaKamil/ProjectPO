@@ -58,16 +58,18 @@
                 <TextBox x:Name="TextBoxName" 
                          Grid.Row="1" 
                          Grid.Column="1" 
-                         Height="20" 
+                         Height="25" 
                          Width="150" 
-                         HorizontalContentAlignment="Center">
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Margin="0,5,0,0">
                 </TextBox>
 
                 <!--Last name-->
                 <Label Grid.Row="1" 
                        Grid.Column="2" 
                        HorizontalContentAlignment="Center"
-                       Content="Last Name:"
+                       Content="Last name:"
                        Foreground="DarkGray"
                        FontFamily="Montserrat"
                        FontWeight="Medium"
@@ -77,16 +79,18 @@
                 <TextBox x:Name="TextBoxLastName" 
                          Grid.Row="1" 
                          Grid.Column="2" 
-                         Height="20" 
-                         Width="150" 
-                         HorizontalContentAlignment="Center">
+                         Height="25" 
+                         Width="150"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Margin="0,5,0,0">
                 </TextBox>
 
                 <!--E-mail address-->
                 <Label Grid.Row="1" 
                        Grid.Column="3" 
                        HorizontalContentAlignment="Center"
-                       Content="E-mail Address"
+                       Content="E-mail address:"
                        Foreground="DarkGray"
                        FontFamily="Montserrat"
                        FontWeight="Medium"
@@ -96,9 +100,11 @@
                 <TextBox x:Name="TextBoxEmailAddress" 
                          Grid.Row="1" 
                          Grid.Column="3" 
-                         Height="20" 
-                         Width="150" 
-                         HorizontalContentAlignment="Center">
+                         Height="25" 
+                         Width="150"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Margin="0,5,0,0">
                 </TextBox>
 
                 <!--Phone number-->
@@ -115,9 +121,11 @@
                 <TextBox x:Name="TextBoxPhoneNumber" 
                          Grid.Row="2" 
                          Grid.Column="3" 
-                         Height="20" 
-                         Width="150" 
-                         HorizontalContentAlignment="Center">
+                         Height="25" 
+                         Width="150"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Margin="0,5,0,0">
                 </TextBox>
 
                 <!--Room number and type-->
@@ -134,10 +142,13 @@
                 <ComboBox x:Name="ComboBoxRooms" 
                           Grid.Row="3" 
                           Grid.Column="3" 
-                          Height="20" 
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Height="25" 
                           Width="150" 
                           IsEnabled="False"
-                          Cursor="Hand">
+                          Cursor="Hand"
+                          Margin="0,5,0,0" SelectionChanged="ComboBoxRooms_SelectionChanged">
                 </ComboBox>
                 
                 <!--Check in date-->
@@ -150,17 +161,17 @@
                        FontWeight="Medium"
                        FontSize="15">
                 </Label>
-
+                
                 <Calendar x:Name="CheckInCalendar"  
                           Grid.Row="2" 
                           Grid.Column="1" 
                           IsTodayHighlighted="False" 
                           Grid.RowSpan="3" 
-                          Margin="0,20,0,20" 
+                          Margin="0,25,0,20" 
                           HorizontalContentAlignment="Center" 
                           SelectedDatesChanged="CheckInCalendar_SelectedDatesChanged"
-                          Cursor="Hand">
-                </Calendar>
+                          SelectionMode="SingleDate"                      
+                          Cursor="Hand"/>
 
                 <!--Check out date-->
                 <Label Grid.Row="2" 
@@ -178,9 +189,11 @@
                           Grid.Column="2" 
                           Grid.RowSpan="3" 
                           IsTodayHighlighted="False" 
-                          Margin="0,20,0,20" 
+                          Margin="0,25,0,20" 
                           HorizontalContentAlignment="Center" 
-                          IsEnabled="False" 
+                          IsEnabled="False"
+                          
+                          SelectionMode="SingleDate"
                           SelectedDatesChanged="CheckOutCalendar_SelectedDatesChanged"
                           Cursor="Hand">
                 </Calendar>
@@ -196,19 +209,25 @@
                        FontSize="15">
                 </Label>
 
-                <ComboBox x:Name="ComboBoxBoards" 
+                <ComboBox x:Name="ComboBoxBoards"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
                           Grid.Row="4" 
                           Grid.Column="3" 
-                          Height="20" 
+                          IsEnabled="False"
+                          Height="25" 
                           Width="150"
-                          Cursor="Hand">
+                          Cursor="Hand"
+                          Margin="0,5,0,0" SelectionChanged="ComboBoxBoards_SelectionChanged">
                 </ComboBox>
 
                 <!--Book-->
                 <Button x:Name="ButtonBook" 
-                        Grid.Column="2" 
+                        Grid.Column="1" 
                         Grid.Row="5" 
+                        Grid.ColumnSpan="2"
                         Content="Book" 
+                        Margin="100,0,100,0"
                         Click="ButtonBook_Click"
                         BorderThickness="0"                       
                         Foreground="White"
@@ -236,6 +255,29 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+
+                <!--Total price-->
+                <Label Grid.Column="3"
+                       Grid.Row="5"
+                       HorizontalContentAlignment="Center"
+                       Content="Total price:"
+                       Foreground="DarkGray"
+                       FontFamily="Montserrat"
+                       FontWeight="Medium"
+                       FontSize="15">
+                </Label>
+
+                <Label x:Name="LabelTotalPrice"
+                       Grid.Column="3"
+                       Grid.Row="5"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"
+                       Foreground="DarkGray"
+                       FontFamily="Montserrat"
+                       FontWeight="Medium"
+                       FontSize="25"
+                       Margin="0,8,0,0">
+                </Label>
             </Grid>
         </Border>
     </Border>
