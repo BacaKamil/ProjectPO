@@ -43,7 +43,6 @@ namespace ProjectPO
 
         private void ComboBoxRooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBoxBoards.IsEnabled = true;
             PriceForRoom();
             TotalPriceChanger();
         }
@@ -254,6 +253,7 @@ namespace ProjectPO
 
         public void TotalPriceChanger()
         {
+            LabelTotalPrice.Content = "";
             string totalPrice = ((nights.Days * pricePerNight) + (nights.Days * boardPrice)).ToString("F") + "zł";
 
             if (totalPrice != "0,00zł")
@@ -267,9 +267,9 @@ namespace ProjectPO
             CheckOutCalendar.SelectedDate = null;
             CheckOutCalendar.DisplayDateStart = CheckInCalendar.SelectedDate.Value.AddDays(1);
             ComboBoxBoards.SelectedIndex = -1;
+            LabelTotalPrice.Content = "";
             RoomAvailability();
             NightsCounter();
-            TotalPriceChanger();
         }
 
         private void CheckOutCalendar_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -277,7 +277,6 @@ namespace ProjectPO
             RoomAvailability();
             NightsCounter();
             TotalPriceChanger();
-            ComboBoxRooms.IsEnabled = true;
         }
     }
 }

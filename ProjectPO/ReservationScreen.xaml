@@ -145,8 +145,7 @@
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Height="25" 
-                          Width="150" 
-                          
+                          Width="150"                        
                           Cursor="Hand"
                           Margin="0,5,0,0" SelectionChanged="ComboBoxRooms_SelectionChanged">
                 </ComboBox>
@@ -207,7 +206,6 @@
                           VerticalAlignment="Center"
                           Grid.Row="4" 
                           Grid.Column="3" 
-                          IsEnabled="False"
                           Height="25" 
                           Width="150"
                           Cursor="Hand"
