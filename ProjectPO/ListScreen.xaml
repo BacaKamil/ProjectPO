@@ -56,6 +56,40 @@
 
                 <Border x:Name="ShadowTextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="Black" Margin="15,-15,-15,15"></Border>
                 <TextBlock x:Name="TextBlockInformations" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="5" Visibility="Hidden" Grid.RowSpan="5" Background="White" FontSize="15" Padding="10,10,10,10"></TextBlock>
+
+                <Button x:Name="ButtonDeleteReservation"
+                        Grid.Row="6"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="0,15,0,15"
+                        Visibility="Hidden"
+                        Content="Delete reservation"
+                        BorderThickness="0"                       
+                        Foreground="White"
+                        FontSize="12"
+                        FontFamily="Montserrat"
+                        Cursor="Hand" Click="ButtonDeleteReservation_Click">
+
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#462AD8"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#28AEED"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="20"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
         </Border>
     </Border>

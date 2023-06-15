@@ -41,7 +41,6 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <!--Name-->
@@ -130,7 +129,7 @@
 
                 <!--Room number and type-->
                 <Label Grid.Row="3" 
-                       Grid.Column="3" 
+                       Grid.Column="1" 
                        HorizontalContentAlignment="Center"
                        Content="Room number and type:"
                        Foreground="DarkGray"
@@ -141,7 +140,7 @@
 
                 <ComboBox x:Name="ComboBoxRooms" 
                           Grid.Row="3" 
-                          Grid.Column="3" 
+                          Grid.Column="1" 
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Height="25" 
@@ -191,8 +190,8 @@
                           SelectedDateChanged="CheckOutCalendar_SelectedDateChanged" BorderBrush="{x:Null}"/>
 
                 <!--Boards-->
-                <Label Grid.Row="4" 
-                       Grid.Column="3" 
+                <Label Grid.Row="3" 
+                       Grid.Column="2" 
                        HorizontalContentAlignment="Center"
                        Content="Boards:"
                        Foreground="DarkGray"
@@ -204,8 +203,8 @@
                 <ComboBox x:Name="ComboBoxBoards"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
-                          Grid.Row="4" 
-                          Grid.Column="3" 
+                          Grid.Row="3" 
+                          Grid.Column="2" 
                           Height="25" 
                           Width="150"
                           Cursor="Hand"
@@ -215,7 +214,7 @@
                 <!--Book-->
                 <Button x:Name="ButtonBook" 
                         Grid.Column="1" 
-                        Grid.Row="5" 
+                        Grid.Row="4" 
                         Grid.ColumnSpan="2"
                         Content="Book" 
                         Margin="100,0,100,0"
@@ -249,7 +248,7 @@
 
                 <!--Total price-->
                 <Label Grid.Column="3"
-                       Grid.Row="5"
+                       Grid.Row="4"
                        HorizontalContentAlignment="Center"
                        Content="Total price:"
                        Foreground="DarkGray"
@@ -260,7 +259,7 @@
 
                 <Label x:Name="LabelTotalPrice"
                        Grid.Column="3"
-                       Grid.Row="5"
+                       Grid.Row="4"
                        HorizontalContentAlignment="Center"
                        VerticalContentAlignment="Center"
                        Foreground="DarkGray"
@@ -269,6 +268,20 @@
                        FontSize="25"
                        Margin="0,8,0,0">
                 </Label>
+                
+                <!--Checkbox-->
+                <CheckBox x:Name="CheckboxCorrect"
+                          Grid.Row="3"
+                          IsChecked="False"
+                          Grid.Column="3"
+                          VerticalAlignment="Center"
+                          Content="All data is correct"
+                          Foreground="DarkGray"
+                          FontFamily="Montserrat"
+                          FontWeight="Medium"
+                          FontSize="15"
+                          Margin="30,0,0,0">
+                </CheckBox>
             </Grid>
         </Border>
     </Border>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,44 +17,25 @@ namespace ProjectPO
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-            sql.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT reservationID, guestName, guestLastName, roomNumber FROM Reservations WHERE NOT (checkOut < @currentDate)", sql);
-            dataAdapter.SelectCommand.Parameters.AddWithValue("@currentDate", DateTime.Today);
-
-            DataSet dataSet = new DataSet();
-            dataAdapter.Fill(dataSet, "Reservations");
-
-            DataTable reservationsTable = dataSet.Tables["Reservations"];
-
-            foreach (DataRow row in reservationsTable.Rows)
-            {
-                int reservationID = (int)row["reservationID"];
-                string guestName = (string)row["guestName"];
-                string guestLastName = (string)row["guestLastName"];
-                int roomNumber = (int)row["roomNumber"];
-
-                string reservation = $"{reservationID} {guestName} {guestLastName} {roomNumber}";
-
-                ListBoxReservations.Items.Add(reservation);
-            }
-            sql.Close();
+            ListBoxGenerator();
         }
 
         private void ListBoxReservations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TextBlockInformations.Visibility = Visibility.Visible;
+            TextBlockInformations.Text = string.Empty;
             ShadowTextBlockInformations.Visibility = Visibility.Visible;
 
             SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+            try
+            {
+                sql.Open();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardType, totalPrice FROM Reservations JOIN Boards ON Boards.boardSignature = Reservations.boardSignature WHERE reservationID = @reservationID", sql);
+                dataAdapter.SelectCommand.Parameters.AddWithValue("@reservationID", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
 
-            sql.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardType, totalPrice FROM Reservations JOIN Boards ON Boards.boardSignature = Reservations.boardSignature WHERE reservationID = @reservationID", sql);
-            dataAdapter.SelectCommand.Parameters.AddWithValue("@reservationID", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
-
-            DataTable dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
-
+                DataTable dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+            
             if (dataTable.Rows.Count > 0)
             {
                 DataRow row = dataTable.Rows[0];
@@ -127,7 +109,69 @@ namespace ProjectPO
             }
 
             sql.Close();
+            }
+            catch (NullReferenceException) { }
 
+            ButtonDeleteReservation.Visibility = Visibility.Visible;
+
+        }
+
+        private void ButtonDeleteReservation_Click(object sender, RoutedEventArgs e)
+        {
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True";
+
+            using (SqlConnection sql = new SqlConnection(connectionString))
+            {
+                sql.Open();
+
+                using (SqlCommand command = new SqlCommand("DELETE FROM Reservations WHERE reservationID = @RowId", sql))
+                {
+                    command.Parameters.AddWithValue("@RowId", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Row deleted successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No rows deleted.");
+                    }
+
+                    ListBoxReservations.SelectedItem = null;
+                    TextBlockInformations.Visibility = Visibility.Hidden;
+                    ShadowTextBlockInformations.Visibility = Visibility.Hidden;
+                    ButtonDeleteReservation.Visibility = Visibility.Hidden;
+                    ListBoxGenerator();
+                }
+            }
+        }
+
+        public void ListBoxGenerator()
+        {
+            ListBoxReservations.Items.Clear();
+            SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+            sql.Open();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT reservationID, guestName, guestLastName, roomNumber FROM Reservations WHERE NOT (checkOut < @currentDate)", sql);
+            dataAdapter.SelectCommand.Parameters.AddWithValue("@currentDate", DateTime.Today);
+
+            DataSet dataSet = new DataSet();
+            dataAdapter.Fill(dataSet, "Reservations");
+
+            DataTable reservationsTable = dataSet.Tables["Reservations"];
+
+            foreach (DataRow row in reservationsTable.Rows)
+            {
+                int reservationID = (int)row["reservationID"];
+                string guestName = (string)row["guestName"];
+                string guestLastName = (string)row["guestLastName"];
+                int roomNumber = (int)row["roomNumber"];
+
+                string reservation = $"{reservationID} {guestName} {guestLastName} {roomNumber}";
+
+                ListBoxReservations.Items.Add(reservation);
+            }
+            sql.Close();
         }
     }
 }

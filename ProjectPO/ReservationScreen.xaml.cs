@@ -14,6 +14,7 @@ namespace ProjectPO
         public decimal pricePerNight = 0;
         public decimal boardPrice = 0;
         public List<int> OutRoomsList = new List<int>();
+        public bool IsCheckedCheckbox = false;
 
         public ReservationScreen()
         {
@@ -92,6 +93,11 @@ namespace ProjectPO
                 MessageBox.Show("Not passed Room !");
                 return;
             }
+            else if (CheckboxCorrect.IsChecked == false)
+            {
+                MessageBox.Show("Checkbox is not checked !");
+                return;
+            }
             else
             {
                 PriceForRoom();
@@ -142,16 +148,20 @@ namespace ProjectPO
 
         public void PriceForBoard()
         {
-            SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-            sql.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT boardPrice FROM Boards WHERE boardSignature = @boardSignature", sql);
-            dataAdapter.SelectCommand.Parameters.AddWithValue("@boardSignature", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+            try
+            {
+                SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+                sql.Open();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT boardPrice FROM Boards WHERE boardSignature = @boardSignature", sql);
+                dataAdapter.SelectCommand.Parameters.AddWithValue("@boardSignature", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
 
-            DataTable dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
+                DataTable dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
 
-            boardPrice = (decimal)dataTable.Rows[0]["boardPrice"];
-            sql.Close();
+                boardPrice = (decimal)dataTable.Rows[0]["boardPrice"];
+                sql.Close();
+            }
+            catch(System.NullReferenceException) { }    
         }
 
         public void NightsCounter()
@@ -246,13 +256,17 @@ namespace ProjectPO
         }
         private void CheckInCalendar_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            CheckOutCalendar.IsEnabled = true;
-            CheckOutCalendar.SelectedDate = null;
-            CheckOutCalendar.DisplayDateStart = CheckInCalendar.SelectedDate.Value.AddDays(1);
-            ComboBoxBoards.SelectedIndex = -1;
-            LabelTotalPrice.Content = "";
-            RoomAvailability();
-            NightsCounter();
+            try
+            {
+                CheckOutCalendar.IsEnabled = true;
+                CheckOutCalendar.SelectedDate = null;
+                CheckOutCalendar.DisplayDateStart = CheckInCalendar.SelectedDate.Value.AddDays(1);
+                ComboBoxBoards.SelectedIndex = -1;
+                LabelTotalPrice.Content = "";
+                RoomAvailability();
+                NightsCounter();
+            }
+            catch (Exception) { }
         }
 
         private void CheckOutCalendar_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
