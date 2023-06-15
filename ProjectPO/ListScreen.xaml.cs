@@ -18,7 +18,8 @@ namespace ProjectPO
         {
             SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
             sql.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT reservationID, guestName, guestLastName, roomNumber FROM Reservations", sql);
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT reservationID, guestName, guestLastName, roomNumber FROM Reservations WHERE NOT checkOut < @courrentData", sql);
+            dataAdapter.SelectCommand.Parameters.AddWithValue("@currentData", DateTime.Now);
 
             DataSet dataSet = new DataSet();
             dataAdapter.Fill(dataSet, "Reservations");
