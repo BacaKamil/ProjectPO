@@ -69,7 +69,7 @@ namespace ProjectPO
             }
             else if (TextBoxEmailAddress.Text.Length < 1)
             {
-                MessageBox.Show("Not passed Mail Address !");
+                MessageBox.Show("Not passed E-mail Address !");
                 return;
             }
             else if (TextBoxPhoneNumber.Text.Length < 9)

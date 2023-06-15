@@ -25,6 +25,10 @@ namespace ProjectPO
         {
             InitializeComponent();
             LabelUser.Content = $"{EmployeeName} {EmployeeLastName}";
+            if(EmployeeName == "Admin" && EmployeeLastName == "Admin")
+            {
+                ButtonAddEmployee.Visibility = Visibility.Visible;
+            }
         }
 
         private void ButtonLogout_Click(object sender, RoutedEventArgs e)
