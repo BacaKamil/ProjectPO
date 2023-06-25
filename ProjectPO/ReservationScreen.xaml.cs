@@ -64,42 +64,42 @@ namespace ProjectPO
         {
             if (TextBoxName.Text.Length < 1)
             {
-                MessageBox.Show("Not passed Name !");
+                MessageBox.Show("Not passed Name !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (TextBoxLastName.Text.Length < 1)
             {
-                MessageBox.Show("Not passed Last Name !");
+                MessageBox.Show("Not passed Last Name !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (TextBoxEmailAddress.Text.Length < 1)
             {
-                MessageBox.Show("Not passed E-mail Address !");
+                MessageBox.Show("Not passed E-mail Address !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (TextBoxPhoneNumber.Text.Length < 9)
             {
-                MessageBox.Show("Not passed Phone Number or length of Phone Number doesn't have 9 digits !");
+                MessageBox.Show("Not passed Phone Number or length of Phone Number doesn't have 9 digits !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (CheckInCalendar.SelectedDate.HasValue == false)
             {
-                MessageBox.Show("Not passed Check In Date !");
+                MessageBox.Show("Not passed Check In Date !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (CheckOutCalendar.SelectedDate.HasValue == false)
             {
-                MessageBox.Show("Not passed Check Out Date !");
+                MessageBox.Show("Not passed Check Out Date !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (ComboBoxRooms.SelectedIndex == -1)
             {
-                MessageBox.Show("Not passed Room !");
+                MessageBox.Show("Not passed Room !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else if (CheckboxCorrect.IsChecked == false)
             {
-                MessageBox.Show("Checkbox is not checked !");
+                MessageBox.Show("Checkbox is not checked !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             else

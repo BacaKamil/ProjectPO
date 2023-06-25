@@ -120,36 +120,42 @@ namespace ProjectPO
 
         private void ButtonDeleteReservation_Click(object sender, RoutedEventArgs e)
         {
-            string databaseFile = "Database.db";
-            SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
-            string query = "DELETE FROM Reservations WHERE reservationID = @RowId";
 
-            connection.Open();
-            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            MessageBoxResult result = MessageBox.Show("Are you sure to delete this reservation?", "Delete Reservation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
             {
-                command.Parameters.AddWithValue("@RowId", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
-                int rowsAffected = command.ExecuteNonQuery();
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+                string query = "DELETE FROM Reservations WHERE reservationID = @RowId";
 
-                if (rowsAffected > 0)
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
-                    MessageBox.Show("Row deleted successfully.");
-                }
-                else
-                {
-                    MessageBox.Show("No rows deleted.");
+                    command.Parameters.AddWithValue("@RowId", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Row deleted successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No rows deleted.");
+                    }
+
+                    ListBoxReservations.SelectedItem = null;
+                    TextBlockInformations.Visibility = Visibility.Hidden;
+                    ShadowTextBlockInformations.Visibility = Visibility.Hidden;
+                    ButtonDeleteReservation.Visibility = Visibility.Hidden;
+                    ReservationsListGenerator();
                 }
 
-                ListBoxReservations.SelectedItem = null;
-                TextBlockInformations.Visibility = Visibility.Hidden;
-                ShadowTextBlockInformations.Visibility = Visibility.Hidden;
-                ButtonDeleteReservation.Visibility = Visibility.Hidden;
-                ReservationsListGenerator();
+                connection.Close();
             }
-
-            connection.Close();
         }
 
-        public void ReservationsListGenerator()
+            public void ReservationsListGenerator()
         {
             ListBoxReservations.Items.Clear();
 
