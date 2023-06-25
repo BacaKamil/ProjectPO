@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Input;
 
@@ -22,27 +21,24 @@ namespace ProjectPO
             string login = TextBoxLogin.Text;
             string password = PasswordBoxPassword.Password;
 
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True";
+            string databaseFile = "Database.db";
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+            string query = "SELECT employeeName, employeeLastName, employeePassword FROM Employees WHERE employeeLogin = @Login";
 
-            using (SqlConnection sql = new SqlConnection(connectionString))
-            {
-                try
+            connection.Open();
+            try
+            {             
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
-                    sql.Open();
-
-                    using (SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT employeeName, employeeLastName, employeePassword FROM Employees WHERE employeeLogin = @Login", sql))
+                    command.Parameters.AddWithValue("@Login", login);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
                     {
-                        dataAdapter.SelectCommand.Parameters.AddWithValue("@Login", login);
+                        EmployeeName = reader["employeeName"].ToString();
+                        EmployeeLastName = reader["employeeLastName"].ToString();
+                        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(reader["employeePassword"].ToString());
 
-                        DataTable dataTable = new DataTable();
-                        dataAdapter.Fill(dataTable);
-
-                        DataRow row = dataTable.Rows[0];
-                        EmployeeName = row["employeeName"].ToString();
-                        EmployeeLastName = row["employeeLastName"].ToString();
-                        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(row["employeePassword"].ToString());
-
-                        if (BCrypt.Net.BCrypt.Verify(password, hashedPassword))
+                        if (!string.IsNullOrEmpty(hashedPassword) && BCrypt.Net.BCrypt.Verify(password, hashedPassword))
                         {
                             MainWindow mainWindow = new MainWindow();
                             mainWindow.Show();
@@ -53,14 +49,14 @@ namespace ProjectPO
                             MessageBox.Show("Invalid login or password. Please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
-                    sql.Close();
                 }
-
-                catch (Exception)
-                {
-                    MessageBox.Show("Invalid login or password. Please try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                connection.Close();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

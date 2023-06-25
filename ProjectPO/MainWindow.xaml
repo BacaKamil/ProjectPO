@@ -197,15 +197,14 @@
                     <!--Add employee-->
                     <Button x:Name="ButtonAddEmployee" 
                     Height="50" 
-                    Content="Add new employee" 
+                    Content="Employees" 
                     Margin="5" 
-                    Visibility="Hidden"
-                    
+                   Visibility="Hidden"
                     BorderThickness="0"                       
                     Foreground="White"
                     FontSize="12"
                     FontFamily="Montserrat"
-                    Cursor="Hand">
+                    Cursor="Hand" Click="ButtonAddEmployee_Click">
 
                         <Button.Style>
                             <Style TargetType="Button">

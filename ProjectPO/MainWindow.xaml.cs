@@ -48,5 +48,10 @@ namespace ProjectPO
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
+
+        private void ButtonAddEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            View.Content = new AddEmployeeScreen();
+        }
     }
 }

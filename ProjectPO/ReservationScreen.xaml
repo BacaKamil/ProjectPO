@@ -211,7 +211,7 @@
                           Margin="0,5,0,0" SelectionChanged="ComboBoxBoards_SelectionChanged">
                 </ComboBox>
 
-                <!--Book-->
+                <!--Book button-->
                 <Button x:Name="ButtonBook" 
                         Grid.Column="1" 
                         Grid.Row="4" 
@@ -282,6 +282,8 @@
                           FontSize="15"
                           Margin="30,0,0,0">
                 </CheckBox>
+                
+                
             </Grid>
         </Border>
     </Border>

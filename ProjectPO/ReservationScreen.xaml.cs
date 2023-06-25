@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -26,22 +25,27 @@ namespace ProjectPO
             CheckInCalendar.DisplayDateStart = DateTime.Now.Date;
             CheckOutCalendar.DisplayDateStart = DateTime.Now.Date.AddDays(1);
 
-            SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-            sql.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT boardSignature, boardType FROM Boards ORDER BY boardPrice ASC", sql);
+            string databaseFile = "Database.db";
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+            string query = "SELECT boardSignature, boardType FROM Boards ORDER BY boardPrice ASC";
 
-            DataTable boardsTable = new DataTable();
-            dataAdapter.Fill(boardsTable);
-
-            foreach (DataRow row in boardsTable.Rows)
+            connection.Open();
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
-                string boardSignature = row["boardSignature"].ToString();
-                string boardType = row["boardType"].ToString();
-                string itemData = $"{boardSignature} - {boardType}";
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string boardSignature = reader["boardSignature"].ToString();
+                        string boardType = reader["boardType"].ToString();
+                        string itemData = $"{boardSignature} - {boardType}";
 
-                ComboBoxBoards.Items.Add(itemData);
+                        ComboBoxBoards.Items.Add(itemData);
+                    }
+                }
             }
-            sql.Close();
+
+            connection.Close();
         }
 
         private void ComboBoxRooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,26 +107,38 @@ namespace ProjectPO
                 PriceForRoom();
                 PriceForBoard();
 
-                SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-                sql.Open();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+                string query = "INSERT INTO Reservations(guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, totalPrice) VALUES(@guestName, @guestLastName, @phoneNumber, @emailAddress, @roomNumber, @checkIn, @checkOut, @nights, @boardSignature, @totalPrice)";
 
-                string insertQuery = "INSERT INTO Reservations (guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardSignature, totalPrice) VALUES (@guestName, @guestLastName, @phoneNumber, @emailAddress, @roomNumber, @checkIn, @checkOut, @nights, @boardSignature, @totalPrice)";
+                connection.Open();
 
-                dataAdapter.InsertCommand = new SqlCommand(insertQuery, sql);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@guestName", TextBoxName.Text);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@guestLastName", TextBoxLastName.Text);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@phoneNumber", TextBoxPhoneNumber.Text);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@emailAddress", TextBoxEmailAddress.Text);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@roomNumber", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@checkIn", CheckInCalendar.SelectedDate);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@checkOut", CheckOutCalendar.SelectedDate);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@nights", nights.Days);
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@boardSignature", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
-                dataAdapter.InsertCommand.Parameters.AddWithValue("@totalPrice", (pricePerNight * nights.Days) + (boardPrice * nights.Days));
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@guestName", TextBoxName.Text);
+                    command.Parameters.AddWithValue("@guestLastName", TextBoxLastName.Text);
+                    command.Parameters.AddWithValue("@phoneNumber", TextBoxPhoneNumber.Text);
+                    command.Parameters.AddWithValue("@emailAddress", TextBoxEmailAddress.Text);
+                    command.Parameters.AddWithValue("@roomNumber", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
+                    command.Parameters.AddWithValue("@checkIn", CheckInCalendar.SelectedDate);
+                    command.Parameters.AddWithValue("@checkOut", CheckOutCalendar.SelectedDate);
+                    command.Parameters.AddWithValue("@nights", nights.Days);
+                    command.Parameters.AddWithValue("@boardSignature", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+                    command.Parameters.AddWithValue("@totalPrice", (pricePerNight * nights.Days) + (boardPrice * nights.Days));
 
-                dataAdapter.InsertCommand.ExecuteNonQuery();
-                sql.Close();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Reservation successfully added!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("An error occurred while adding the reservation.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    connection.Close();
+                }
 
                 ResetAll();
             }
@@ -132,16 +148,29 @@ namespace ProjectPO
         {
             try
             {
-                SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-                sql.Open();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT pricePerNight FROM Rooms WHERE roomNumber = @roomNumber", sql);
-                dataAdapter.SelectCommand.Parameters.AddWithValue("@roomNumber", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+                string query = "SELECT pricePerNight FROM Rooms WHERE roomNumber = @roomNumber";
 
-                DataTable dataTable = new DataTable();
-                dataAdapter.Fill(dataTable);
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@roomNumber", ComboBoxRooms.SelectedItem.ToString().Substring(0, 3));
 
-                pricePerNight = (decimal)dataTable.Rows[0]["pricePerNight"];
-                sql.Close();
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            pricePerNight = reader.GetDecimal(reader.GetOrdinal("pricePerNight"));
+                        }
+                        else
+                        {
+                            MessageBox.Show("An error occurred while retrieving the price per night.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+
+                connection.Close();
             }
             catch (System.NullReferenceException) { }
         }
@@ -150,18 +179,31 @@ namespace ProjectPO
         {
             try
             {
-                SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-                sql.Open();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT boardPrice FROM Boards WHERE boardSignature = @boardSignature", sql);
-                dataAdapter.SelectCommand.Parameters.AddWithValue("@boardSignature", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+                string query = "SELECT boardPrice FROM Boards WHERE boardSignature = @boardSignature";
 
-                DataTable dataTable = new DataTable();
-                dataAdapter.Fill(dataTable);
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@boardSignature", ComboBoxBoards.SelectedItem.ToString().Substring(0, 2));
 
-                boardPrice = (decimal)dataTable.Rows[0]["boardPrice"];
-                sql.Close();
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            boardPrice = reader.GetDecimal(reader.GetOrdinal("boardPrice"));
+                        }
+                        else
+                        {
+                            MessageBox.Show("An error occurred while retrieving the board price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+
+                connection.Close();
             }
-            catch(System.NullReferenceException) { }    
+            catch (System.NullReferenceException) { }
         }
 
         public void NightsCounter()
@@ -170,10 +212,7 @@ namespace ProjectPO
             {
                 nights = CheckOutCalendar.SelectedDate.Value - CheckInCalendar.SelectedDate.Value;
             }
-            catch (InvalidOperationException)
-            {
-
-            }
+            catch (InvalidOperationException) { }
         }
 
         public void RoomAvailability()
@@ -183,64 +222,79 @@ namespace ProjectPO
 
             if (CheckInCalendar.SelectedDate != null && CheckOutCalendar.SelectedDate != null)
             {
-                SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-                sql.Open();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT roomNumber FROM Reservations WHERE (checkIn <= @checkIn AND checkOut >= @checkIn) OR (checkIn <= @checkOut AND checkOut >= @checkOut)", sql);
-                dataAdapter.SelectCommand.Parameters.AddWithValue("@checkIn", CheckInCalendar.SelectedDate);
-                dataAdapter.SelectCommand.Parameters.AddWithValue("@checkOut", CheckOutCalendar.SelectedDate);
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+                string query = "SELECT roomNumber FROM Reservations WHERE (checkIn <= @checkIn AND checkOut >= @checkIn) OR (checkIn <= @checkOut AND checkOut >= @checkOut)";
 
-                DataTable dataTable = new DataTable();
-                dataAdapter.Fill(dataTable);
-
-                List<int> outRoomsList = new List<int>();
-                foreach (DataRow row in dataTable.Rows)
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
-                    int roomNumber = (int)row["roomNumber"];
-                    outRoomsList.Add(roomNumber);
-                }
-                sql.Close();
+                    command.Parameters.AddWithValue("@checkIn", CheckInCalendar.SelectedDate);
+                    command.Parameters.AddWithValue("@checkOut", CheckOutCalendar.SelectedDate);
 
-                sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-                sql.Open();
-                if (OutRoomsList.Count > 0)
-                {
-                    List<string> comboBoxItems = new List<string>();
-
-                    foreach (int room in OutRoomsList)
+                    using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        dataAdapter = new SqlDataAdapter("SELECT roomNumber, roomType FROM Rooms WHERE NOT roomNumber = @OutRoom", sql);
-                        dataAdapter.SelectCommand.Parameters.AddWithValue("@OutRoom", room);
-
-                        dataTable = new DataTable();
-                        dataAdapter.Fill(dataTable);
-
-                        foreach (DataRow row in dataTable.Rows)
+                        while (reader.Read())
                         {
-                            int roomNumber = (int)row["roomNumber"];
-                            string roomType = (string)row["roomType"];
+                            int roomNumber = reader.GetInt32(reader.GetOrdinal("roomNumber"));
+                            OutRoomsList.Add(roomNumber);
+                        }
+                    }
+                }
+
+                connection.Close();
+            }
+
+
+            if (OutRoomsList.Count > 0)
+            {
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+
+                string excludedRooms = string.Join(",", OutRoomsList);
+                string query = $"SELECT roomNumber, roomType FROM Rooms WHERE roomNumber NOT IN ({excludedRooms})";
+
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int roomNumber = reader.GetInt32(reader.GetOrdinal("roomNumber"));
+                            string roomType = reader.GetString(reader.GetOrdinal("roomType"));
                             string itemData = $"{roomNumber} {roomType}";
 
                             ComboBoxRooms.Items.Add(itemData);
                         }
                     }
                 }
-                else
+
+                connection.Close();
+            }
+            else
+            {
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};");
+                string query = "SELECT roomNumber, roomType FROM Rooms";
+
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
-                    dataAdapter = new SqlDataAdapter("SELECT roomNumber, roomType FROM Rooms", sql);
-
-                    dataTable = new DataTable();
-                    dataAdapter.Fill(dataTable);
-
-                    foreach (DataRow row in dataTable.Rows)
+                    using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        int roomNumber = (int)row["roomNumber"];
-                        string roomType = (string)row["roomType"];
-                        string itemData = $"{roomNumber} {roomType}";
+                        while (reader.Read())
+                        {
+                            int roomNumber = reader.GetInt32(reader.GetOrdinal("roomNumber"));
+                            string roomType = reader.GetString(reader.GetOrdinal("roomType"));
+                            string itemData = $"{roomNumber} {roomType}";
 
-                        ComboBoxRooms.Items.Add(itemData);
+                            ComboBoxRooms.Items.Add(itemData);
+                        }
                     }
                 }
-                sql.Close();
+
+                connection.Close();
             }
         }
 

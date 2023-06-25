@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -17,7 +15,7 @@ namespace ProjectPO
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            ListBoxGenerator();
+            ReservationsListGenerator();
         }
 
         private void ListBoxReservations_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -26,89 +24,93 @@ namespace ProjectPO
             TextBlockInformations.Text = string.Empty;
             ShadowTextBlockInformations.Visibility = Visibility.Visible;
 
-            SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
+            string databaseFile = "Database.db";
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+            string query = "SELECT guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardType, totalPrice FROM Reservations JOIN Boards ON Boards.boardSignature = Reservations.boardSignature WHERE reservationID = @reservationID";
+
             try
             {
-                sql.Open();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT guestName, guestLastName, phoneNumber, emailAddress, roomNumber, checkIn, checkOut, nights, boardType, totalPrice FROM Reservations JOIN Boards ON Boards.boardSignature = Reservations.boardSignature WHERE reservationID = @reservationID", sql);
-                dataAdapter.SelectCommand.Parameters.AddWithValue("@reservationID", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@reservationID", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
 
-                DataTable dataTable = new DataTable();
-                dataAdapter.Fill(dataTable);
-            
-            if (dataTable.Rows.Count > 0)
-            {
-                DataRow row = dataTable.Rows[0];
-                string guestName = row["guestName"].ToString();
-                string guestLastName = row["guestLastName"].ToString();
-                string phoneNumber = row["phoneNumber"].ToString();
-                string emailAddress = row["emailAddress"].ToString();
-                int roomNumber = (int)row["roomNumber"];
-                DateTime checkIn = (DateTime)row["checkIn"];
-                DateTime checkOut = (DateTime)row["checkOut"];
-                int nights = (int)row["nights"];
-                string boardType = row["boardType"].ToString();
-                decimal totalPrice = (decimal)row["totalPrice"];
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string guestName = reader.GetString(0);
+                            string guestLastName = reader.GetString(1);
+                            string phoneNumber = reader.GetString(2);
+                            string emailAddress = reader.GetString(3);
+                            int roomNumber = reader.GetInt32(4);
+                            DateTime checkIn = reader.GetDateTime(5);
+                            DateTime checkOut = reader.GetDateTime(6);
+                            int nights = reader.GetInt32(7);
+                            string boardType = reader.GetString(8);
+                            decimal totalPrice = reader.GetDecimal(9);
 
-                TextBlockInformations.Inlines.Add(new Run("Name: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(guestName));
+                            TextBlockInformations.Inlines.Add(new Run("Name: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(guestName));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Last name: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(guestLastName));
+                            TextBlockInformations.Inlines.Add(new Run("Last name: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(guestLastName));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Phone number: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(phoneNumber));
+                            TextBlockInformations.Inlines.Add(new Run("Phone number: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(phoneNumber));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("E-mail address: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(emailAddress));
+                            TextBlockInformations.Inlines.Add(new Run("E-mail address: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(emailAddress));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Room number: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(roomNumber.ToString()));
+                            TextBlockInformations.Inlines.Add(new Run("Room number: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(roomNumber.ToString()));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Check in date: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(checkIn.ToString("d")));
+                            TextBlockInformations.Inlines.Add(new Run("Check in date: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(checkIn.ToString("d")));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Check out date: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(checkOut.ToString("d")));
+                            TextBlockInformations.Inlines.Add(new Run("Check out date: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(checkOut.ToString("d")));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Nights: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(nights.ToString()));
+                            TextBlockInformations.Inlines.Add(new Run("Nights: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(nights.ToString()));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Board type: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(boardType));
+                            TextBlockInformations.Inlines.Add(new Run("Board type: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(boardType));
 
-                TextBlockInformations.Inlines.Add(new LineBreak());
-                TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
+                            TextBlockInformations.Inlines.Add(new LineBreak());
 
-                TextBlockInformations.Inlines.Add(new Run("Total price: ") { FontWeight = FontWeights.Bold });
-                TextBlockInformations.Inlines.Add(new Run(totalPrice.ToString("F2") + " zł"));
-            }
+                            TextBlockInformations.Inlines.Add(new Run("Total price: ") { FontWeight = FontWeights.Bold });
+                            TextBlockInformations.Inlines.Add(new Run(totalPrice.ToString("F2") + " zł"));
+                        }
 
-            sql.Close();
+                        connection.Close();
+                    }
+                }
             }
             catch (NullReferenceException) { }
 
@@ -118,60 +120,64 @@ namespace ProjectPO
 
         private void ButtonDeleteReservation_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True";
+            string databaseFile = "Database.db";
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+            string query = "DELETE FROM Reservations WHERE reservationID = @RowId";
 
-            using (SqlConnection sql = new SqlConnection(connectionString))
+            connection.Open();
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
-                sql.Open();
+                command.Parameters.AddWithValue("@RowId", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
+                int rowsAffected = command.ExecuteNonQuery();
 
-                using (SqlCommand command = new SqlCommand("DELETE FROM Reservations WHERE reservationID = @RowId", sql))
+                if (rowsAffected > 0)
                 {
-                    command.Parameters.AddWithValue("@RowId", ListBoxReservations.SelectedItem.ToString().Split(' ')[0]);
-                    int rowsAffected = command.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Row deleted successfully.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("No rows deleted.");
-                    }
-
-                    ListBoxReservations.SelectedItem = null;
-                    TextBlockInformations.Visibility = Visibility.Hidden;
-                    ShadowTextBlockInformations.Visibility = Visibility.Hidden;
-                    ButtonDeleteReservation.Visibility = Visibility.Hidden;
-                    ListBoxGenerator();
+                    MessageBox.Show("Row deleted successfully.");
                 }
+                else
+                {
+                    MessageBox.Show("No rows deleted.");
+                }
+
+                ListBoxReservations.SelectedItem = null;
+                TextBlockInformations.Visibility = Visibility.Hidden;
+                ShadowTextBlockInformations.Visibility = Visibility.Hidden;
+                ButtonDeleteReservation.Visibility = Visibility.Hidden;
+                ReservationsListGenerator();
             }
+
+            connection.Close();
         }
 
-        public void ListBoxGenerator()
+        public void ReservationsListGenerator()
         {
             ListBoxReservations.Items.Clear();
-            SqlConnection sql = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True");
-            sql.Open();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT reservationID, guestName, guestLastName, roomNumber FROM Reservations WHERE NOT (checkOut < @currentDate)", sql);
-            dataAdapter.SelectCommand.Parameters.AddWithValue("@currentDate", DateTime.Today);
 
-            DataSet dataSet = new DataSet();
-            dataAdapter.Fill(dataSet, "Reservations");
+            string databaseFile = "Database.db";
+            SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+            string query = "SELECT reservationID, guestName, guestLastName, roomNumber FROM Reservations WHERE NOT (checkOut < @currentDate)";
 
-            DataTable reservationsTable = dataSet.Tables["Reservations"];
-
-            foreach (DataRow row in reservationsTable.Rows)
+            connection.Open();
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
-                int reservationID = (int)row["reservationID"];
-                string guestName = (string)row["guestName"];
-                string guestLastName = (string)row["guestLastName"];
-                int roomNumber = (int)row["roomNumber"];
+                command.Parameters.AddWithValue("@currentDate", DateTime.Today);
 
-                string reservation = $"{reservationID} {guestName} {guestLastName} {roomNumber}";
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int reservationID = reader.GetInt32(reader.GetOrdinal("reservationID"));
+                        string guestName = reader.GetString(reader.GetOrdinal("guestName"));
+                        string guestLastName = reader.GetString(reader.GetOrdinal("guestLastName"));
+                        int roomNumber = reader.GetInt32(reader.GetOrdinal("roomNumber"));
+                        string reservation = $"{reservationID} {guestName} {guestLastName} {roomNumber}";
 
-                ListBoxReservations.Items.Add(reservation);
+                        ListBoxReservations.Items.Add(reservation);
+                    }
+                }
+
+                connection.Close();
             }
-            sql.Close();
         }
     }
 }
