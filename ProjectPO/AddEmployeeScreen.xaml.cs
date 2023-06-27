@@ -9,6 +9,7 @@ namespace ProjectPO
     public partial class AddEmployeeScreen : UserControl
     {
         public static string EmployeeID { get; set; }
+
         public AddEmployeeScreen()
         {
             InitializeComponent();
@@ -103,7 +104,6 @@ namespace ProjectPO
                         }
                     }
                 }
-
                 connection.Close();
             }
             catch (NullReferenceException) { }
@@ -120,6 +120,12 @@ namespace ProjectPO
 
             ChangeEmpoyeePasswordWindow changeEmpoyeePassword = new ChangeEmpoyeePasswordWindow();
             changeEmpoyeePassword.Show();
+
+            EmployessListGenerator();
+            TextBlockInformations.Visibility = Visibility.Hidden;
+            ButtonChangePassword.Visibility = Visibility.Hidden;
+            ButtonDeleteEmployee.Visibility = Visibility.Hidden;
+            TextBlockInformations.Text = string.Empty;    
         }
 
         private void ButtonDeleteEmployee_Click(object sender, RoutedEventArgs e)
@@ -141,10 +147,6 @@ namespace ProjectPO
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show("Employee deleted successfully.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("No rows deleted.");
                     }
 
                     TextBlockInformations.Visibility = Visibility.Hidden;

@@ -1,7 +1,10 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using static ProjectPO.AddEmployeeScreen;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace ProjectPO
 {
@@ -49,11 +52,29 @@ namespace ProjectPO
 
             if (!string.IsNullOrEmpty(newPassword) && !string.IsNullOrEmpty(repeatPassword) && (newPassword == repeatPassword))
             {
-                MessageBox.Show("Hasła są takie same");
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+                string query = "UPDATE Employees SET employeePassword = @NewPassword WHERE employeeID = @EmployeeId";
+
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EmployeeId", EmployeeID);
+                    command.Parameters.AddWithValue("@NewPassword", newPassword);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if(rowsAffected > 0)
+                        MessageBox.Show("Password has been changed!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                connection.Close();
+                Close();
             }
             else
             {
-                MessageBox.Show("Hasła nie są takie same");
+                MessageBox.Show("Password has been changed!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                PasswordBoxNewPassword.Password = null;
+                PasswordBoxRepeatPassword.Password = null;
             }
         }
     }

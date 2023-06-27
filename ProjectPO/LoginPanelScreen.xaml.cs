@@ -56,7 +56,6 @@ namespace ProjectPO
             {
                 MessageBox.Show("Error: " + ex.Message);
             }
-
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
