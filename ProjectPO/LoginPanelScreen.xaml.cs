@@ -27,7 +27,7 @@ namespace ProjectPO
 
             connection.Open();
             try
-            {             
+            {
                 using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Login", login);

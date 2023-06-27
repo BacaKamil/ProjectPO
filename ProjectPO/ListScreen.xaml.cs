@@ -155,7 +155,7 @@ namespace ProjectPO
             }
         }
 
-            public void ReservationsListGenerator()
+        public void ReservationsListGenerator()
         {
             ListBoxReservations.Items.Clear();
 

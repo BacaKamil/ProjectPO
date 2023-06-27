@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Data.SQLite;
 
 namespace ProjectPO
 {
     public partial class AddEmployeeScreen : UserControl
     {
+        public static string EmployeeID { get; set; }
         public AddEmployeeScreen()
         {
             InitializeComponent();
@@ -110,17 +111,48 @@ namespace ProjectPO
 
         private void ButtonAddEmployee_Click(object sender, RoutedEventArgs e)
         {
-             
+
         }
 
         private void ButtonChangePassword_Click(object sender, RoutedEventArgs e)
         {
-
+            EmployeeID = ListBoxEmployees.SelectedItem.ToString().Split(' ')[0];
+            ChangeEmpoyeePasswordWindow changeEmpoyeePassword = new ChangeEmpoyeePasswordWindow();
+            changeEmpoyeePassword.Show();
         }
 
         private void ButtonDeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Are you sure to delete this employee?", "Delete employee", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+                string query = "DELETE FROM Employees WHERE employeesID = @EmployeeId";
+
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EmployeeId", ListBoxEmployees.SelectedItem.ToString().Split(' ')[0]);
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Employee deleted successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No rows deleted.");
+                    }
+
+                    TextBlockInformations.Visibility = Visibility.Hidden;
+                    ButtonChangePassword.Visibility = Visibility.Hidden;
+                    ButtonDeleteEmployee.Visibility = Visibility.Hidden;
+                    TextBlockInformations.Text = string.Empty;
+                }
+                connection.Close();
+            }
         }
     }
 }
