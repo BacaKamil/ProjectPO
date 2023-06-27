@@ -117,6 +117,7 @@ namespace ProjectPO
         private void ButtonChangePassword_Click(object sender, RoutedEventArgs e)
         {
             EmployeeID = ListBoxEmployees.SelectedItem.ToString().Split(' ')[0];
+
             ChangeEmpoyeePasswordWindow changeEmpoyeePassword = new ChangeEmpoyeePasswordWindow();
             changeEmpoyeePassword.Show();
         }
@@ -129,7 +130,7 @@ namespace ProjectPO
             {
                 string databaseFile = "Database.db";
                 SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
-                string query = "DELETE FROM Employees WHERE employeesID = @EmployeeId";
+                string query = "DELETE FROM Employees WHERE employeeID = @EmployeeId";
 
                 connection.Open();
                 using (SQLiteCommand command = new SQLiteCommand(query, connection))
