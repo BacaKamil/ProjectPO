@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
   <asmv1:assemblyIdentity name="ProjectPO.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="HotelApp.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
     <assemblyIdentity name="ProjectPO" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -90,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ProjectPO.exe" size="54216">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ProjectPO.exe" size="69576">
       <assemblyIdentity name="ProjectPO" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cGaaoqZ/QbYUlljPIyKwU/1PonWY8w/XHTeapORV51k=</dsig:DigestValue>
+        <dsig:DigestValue>BdfVZm/SW8FAupOd+UBWOnJJTxKKvPqdf5uZYBiYTy8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -185,6 +186,15 @@
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="HotelApp.ico" size="7577">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gMNsrhbOURKS9EmiWfWcIOEAWPTa0RzzQCKA7IN7HLQ=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="ProjectPO.exe.config" size="2138">
     <hash>
       <dsig:Transforms>

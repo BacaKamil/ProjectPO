@@ -130,6 +130,11 @@ namespace ProjectPO
                 MessageBox.Show("Not passed employee's Passwords or length of Password doesn't have 9 digits !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+            else if (CheckboxCorrectData.IsChecked == false)
+            {
+                MessageBox.Show("Checkbox is not checked !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             else
             {
                 string databaseFile = "Database.db";
