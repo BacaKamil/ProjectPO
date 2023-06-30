@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -64,7 +63,7 @@ namespace ProjectPO
 
                     int rowsAffected = command.ExecuteNonQuery();
 
-                    if(rowsAffected > 0)
+                    if (rowsAffected > 0)
                         MessageBox.Show("Password has been changed!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 connection.Close();

@@ -7,14 +7,14 @@
     <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="ProjectPO.exe.manifest" size="13553">
+    <dependentAssembly dependencyType="install" codebase="ProjectPO.exe.manifest" size="13073">
       <assemblyIdentity name="ProjectPO.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/y5JSTX+6i5Cseog8dPRY39nnx0lwflynwzHt+q4Jvc=</dsig:DigestValue>
+        <dsig:DigestValue>+Dw4tEdNoVrIHcxCOlOj+xkEXQRUyxtPkfeQAugvxak=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

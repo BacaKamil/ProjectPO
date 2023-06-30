@@ -53,7 +53,6 @@ namespace ProjectPO
                     }
                 }
             }
-
             connection.Close();
         }
 
@@ -111,7 +110,60 @@ namespace ProjectPO
 
         private void ButtonAddEmployee_Click(object sender, RoutedEventArgs e)
         {
+            if (TextBoxEmployeeName.Text.Length < 1)
+            {
+                MessageBox.Show("Not passed employee's Name !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            else if (TextBoxEmployeeName.Text.Length < 1)
+            {
+                MessageBox.Show("Not passed employee's Last Name !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            else if (TextBoxEmployeeLogin.Text.Length < 1)
+            {
+                MessageBox.Show("Not passed employee's Login !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            else if (TextBoxEmployeePassword.Password.Length < 8)
+            {
+                MessageBox.Show("Not passed employee's Passwords or length of Password doesn't have 9 digits !", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            else
+            {
+                string databaseFile = "Database.db";
+                SQLiteConnection connection = new SQLiteConnection($"Data Source={databaseFile};Version=3;");
+                string query = "INSERT INTO Employees (employeeName, employeeLastName, employeeLogin, employeePassword) VALUES (@EmployeeName, @EmployeeLastName,  @EmpoyeeLogin, @EmployeePassword)";
 
+                connection.Open();
+
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EmployeeName", TextBoxEmployeeName.Text);
+                    command.Parameters.AddWithValue("@EmployeeLastName", TextBoxEmployeeLastName.Text);
+                    command.Parameters.AddWithValue("@EmpoyeeLogin", TextBoxEmployeeLogin.Text);
+                    command.Parameters.AddWithValue("@EmployeePassword", TextBoxEmployeePassword.Password);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Employee data has been successfully added to the database.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add employee data to the database.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+
+                connection.Close();
+
+                TextBoxEmployeeName.Text = string.Empty;
+                TextBoxEmployeeLastName.Text = string.Empty;
+                TextBoxEmployeeLogin.Text = string.Empty;
+                TextBoxEmployeePassword.Password = string.Empty;
+            }
         }
 
         private void ButtonChangePassword_Click(object sender, RoutedEventArgs e)
@@ -125,7 +177,7 @@ namespace ProjectPO
             TextBlockInformations.Visibility = Visibility.Hidden;
             ButtonChangePassword.Visibility = Visibility.Hidden;
             ButtonDeleteEmployee.Visibility = Visibility.Hidden;
-            TextBlockInformations.Text = string.Empty;    
+            TextBlockInformations.Text = string.Empty;
         }
 
         private void ButtonDeleteEmployee_Click(object sender, RoutedEventArgs e)
@@ -148,14 +200,23 @@ namespace ProjectPO
                     {
                         MessageBox.Show("Employee deleted successfully.");
                     }
-
-                    TextBlockInformations.Visibility = Visibility.Hidden;
-                    ButtonChangePassword.Visibility = Visibility.Hidden;
-                    ButtonDeleteEmployee.Visibility = Visibility.Hidden;
-                    TextBlockInformations.Text = string.Empty;
                 }
                 connection.Close();
+
+                TextBlockInformations.Visibility = Visibility.Hidden;
+                ButtonChangePassword.Visibility = Visibility.Hidden;
+                ButtonDeleteEmployee.Visibility = Visibility.Hidden;
+                TextBlockInformations.Text = string.Empty;
             }
+            else 
+            {
+                TextBlockInformations.Visibility = Visibility.Hidden;
+                ButtonChangePassword.Visibility = Visibility.Hidden;
+                ButtonDeleteEmployee.Visibility = Visibility.Hidden;
+                TextBlockInformations.Text = string.Empty;
+            }
+            
+            EmployessListGenerator();
         }
     }
 }

@@ -117,7 +117,7 @@
                        FontSize="15">
                 </Label>
 
-                <TextBox x:Name="TextBoxEmployeePassword" 
+                <PasswordBox x:Name="TextBoxEmployeePassword" 
                          Grid.Row="2" 
                          Grid.Column="2" 
                          Height="25" 
@@ -125,7 +125,7 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"
                          Margin="0,5,0,0">
-                </TextBox>
+                </PasswordBox>
 
                 <!--Checkbox-->
                 <CheckBox x:Name="CheckboxCorrectData"
